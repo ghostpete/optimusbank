@@ -1,0 +1,583 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+
+{% block style %}
+
+<link rel="stylesheet" href="{% static 'css/card.css' %}">
+
+<style>
+
+    .no-wrap {
+        white-space: nowrap;
+    }
+    </style>
+
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+<main class="content mt-0">
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <h1 style="text-transform: capitalize;" class="h3 mb-0"> <b>Welcome, <span
+                    style="text-transform: capitalize;">{{user.first_name}}.</span></b> </h1>
+        {% if user.get_profile_image_url %}
+        <a href="{% url 'profile' %}" class="d-inline-block">
+            <img src="{{user.get_profile_image_url}}" style="border-radius: 50%; object-fit: cover; border: 2px solid #222296;"
+                class="avatar me-1" alt="{{user.get_user_fullname}}" />
+        </a>
+        {% endif %}
+
+    </div>
+
+
+
+    <div class="container-fluid p-0">
+        {% if has_account %}
+        <h1 class="h3 mb-3"><strong>Accounts</strong> </h1>
+        {% endif %}
+
+
+        <div class="w-100">
+            <div class="row">
+                <!-- Total Balance -->
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col mt-0">
+                                    <h5 class="card-title">TOTAL BANK BALANCE</h5>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="stat text-primary">
+                                        <i class="align-middle" data-feather="dollar-sign"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="mt-1 mb-3 text-md" style="font-size: 19px !important;">
+                                ${{user.get_total_amount_in_account}}</h1>
+
+                            <a href="{% url 'accounts' %}" style="text-decoration: underline;"
+                                class="btn btn-link p-0">View Accounts</a>
+
+                        </div>
+                    </div>
+                </div>
+                {% for account in accounts %}
+                {% if account %}
+                <a class="col-12 col-sm-6 col-md-4" href="{% url 'accounts_detail' account.id %}"
+                    style="display: block; text-decoration: none;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col mt-0">
+                                    <h5 class="card-title text-capitalize">{{ account.account_type }}
+                                        {{account_model_meta.model_name | upper}}
+                                    </h5>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="stat text-primary">
+                                        <i class="align-middle" data-feather="dollar-sign"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="mt-1 mb-3 " style="font-size: 19px !important;">${{ account.balance }}</h1>
+
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                {% if account.activated %}
+                                <span class="badge bg-success">ACTIVE</span>
+                                {% else %}
+                                <span class="badge bg-danger">RED</span>
+                                {% endif %}
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% endif %}
+                {% endfor %}
+
+                {% if has_loan %}
+                <h1 class="h3 mb-3"><strong>Loans</strong> </h1>
+                {% endif %}
+
+                {% if has_loan %}
+                <!-- Total Loan Balance -->
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col mt-0">
+                                    <h5 class="card-title">TOTAL LOAN BALANCE</h5>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="stat text-primary">
+                                        <i class="align-middle" data-feather="dollar-sign"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="mt-1 mb-3 text-md" style="font-size: 19px !important;">
+                                ${{loan_total}}</h1>
+
+                            <a href="{% url 'loans' %}" style="text-decoration: underline;"
+                                class="btn btn-link p-0">View Loans</a>
+                        </div>
+                    </div>
+                </div>
+                {% for loan in loans %}
+                <a class="col-12 col-sm-6 col-md-4" class="d-inline-block"
+                    style="display: inline-block; text-decoration: none;" href="{% url 'loan_detail' loan.id %}">
+                    <div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col mt-0">
+                                        <h5 class="card-title" style="text-transform: uppercase;">
+                                            {{ loan.loan_type }}
+                                            {{ loan_model_meta.model_name | upper }}
+                                        </h5>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="stat text-primary">
+                                            <i class="align-middle" data-feather="dollar-sign"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <h1 class="mt-1 mb-3" style="font-size: 19px !important;">${{ loan.amount }}</h1>
+                                {% if loan.activated %}
+                                <span class="badge bg-primary">Active</span>
+                                {% else %}
+                                <span class="badge bg-danger">Pending</span>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+
+                {% endif %}
+
+            </div>
+
+            {% if has_debit_cards %}
+            <h1 class="h3 mb-3 mt-3"><strong>Debit Cards</strong> </h1>
+            <div class="d-flex flex-wrap gap-2">
+                {% for card in debit_cards %}
+                <div class="bank__card"
+                    style="background-image: url('{% static 'images/firstcitizenbg-background.jpg' %}');">
+                    <div class="d-flex align-items-center gap-2">
+                        <img width="20" class="fcb-image__image" src="{% static 'images/image.20240613.png' %}"
+                            srcset="{% static 'images/image.20240613_1.png 2x' %}, {% static 'images/image.20240613.png 1x' %}"
+                            alt="First Citizens Bank Logo" data-trackable="true"
+                            data-asset-id="dc55e3cd-91af-480a-b6da-ccc2cb83406d" loading="lazy" tabindex="0">
+                        <p class="name__of__bank">
+                            FirstCitizen Bank
+                        </p>
+                    </div>
+
+
+                    <p class="card__number mt-3">
+                        {% if card.activated %}
+                        {{ card.card_number }}
+                        {% else %}
+                        **********
+                        {% endif %}
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <p class="user_name">{{user.first_name}} {{user.last_name}}</p>
+                        <p class="expiration_date">
+                            {% if card.card_expiration %}
+                            <span class="">
+
+                                <span class="exp-date">
+                                    {% if card.activated %}
+                                    {{ card.card_expiration }}
+                                    {% else %}
+                                    **********
+                                    {% endif %}
+                                </span>
+                            </span>
+                            {% else %}
+                            <span class="">
+
+                                <span class="exp-date" data-date="{{ card.expiration_date }}">
+                                    {% if card.activated %}
+                                    {{ card.expiration_date|date:"m/y" }}
+                                    {% else %}
+                                    **********
+                                    {% endif %}
+                                </span>
+                            </span>
+                            {% endif %}
+                        </p>
+
+
+                    </div>
+
+
+                    <div class="card__overlay">
+                        <!-- <button class="btn btn-primary overlay__btn">View Details</button> -->
+                        {% if card.activated %}
+                        <button class="btn btn-primary overlay__btn" data-bs-toggle="modal"
+                            data-bs-target="#cardDetailsModal" data-card="{{ card.id }}"
+                            data-number="{% if card.activated %} {{ card.card_number }} {% else %} ********** {% endif %}"
+                            data-type="{{ card.card_type }}"
+                            data-exp="{% if card.card_expiration %} {{ card.card_expiration }} {% else %}  {{ card.expiration_date }} {% endif %}"
+                            data-cvv="{% if card.activated %}{{ card.cvv }}{% else %}***{% endif %}"
+                            data-status="{% if card.activated %}Active{% else %}Inactive{% endif %}"
+                            data-available-balance="{{ card.amount_in_card }}">
+                            View Details
+                        </button>
+                        {% else %}
+
+                        <a class="btn btn-primary overlay__btn" href="{% url 'credit_card_detail' card.id %}">Activate
+                            Card</a>
+                        {% endif %}
+                    </div>
+
+                    <span class="card__status">
+                        {% if card.activated %}
+                        <span class="badge bg-success">Active</span>
+                        {% else %}
+                        <span class="badge bg-danger">Inactive</span>
+                        {% endif %}
+                    </span>
+
+                    <div
+                        style="display: flex; flex-direction: column; justify-content: center; align-items: center; justify-self: flex-end; align-self: flex-end;">
+                        <img width="55" src="{{ card.card_image }}" alt="Logo">
+                        <p style="text-transform: uppercase;">{{card.card_category}}</p>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+
+            {% if has_credit_cards %}
+            <h1 class="h3 mb-3 mt-3"><strong>Credit Cards</strong> </h1>
+            <div class="d-flex flex-wrap gap-2">
+                {% for card in credit_cards %}
+                <div class="bank__card"
+                    style="background-image: url('{% static 'images/firstcitizenbg-background.jpg' %}');">
+                    <div class="d-flex align-items-center gap-2">
+                        <img width="20" class="fcb-image__image" src="{% static 'images/image.20240613.png' %}"
+                            srcset="{% static 'images/image.20240613_1.png 2x' %}, {% static 'images/image.20240613.png 1x' %}"
+                            alt="First Citizens Bank Logo" data-trackable="true"
+                            data-asset-id="dc55e3cd-91af-480a-b6da-ccc2cb83406d" loading="lazy" tabindex="0">
+                        <p class="name__of__bank">
+                            FirstCitizen Bank
+                        </p>
+                    </div>
+                    <!-- <p>{{card.card_category}}</p> -->
+                    <p class="card__number">
+                        {% if card.activated %}
+                        {{ card.card_number }}
+                        {% else %}
+                        **********
+                        {% endif %}
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <p class="user_name">{{user.first_name}} {{user.last_name}}</p>
+                        <p class="expiration_date">
+                            {% if card.card_expiration %}
+                            <span class="">
+
+                                <span class="exp-date">
+                                    {% if card.activated %}
+                                    {{ card.expiration_date|date:"m/y" }}
+                                    {% else %}
+                                    **********
+                                    {% endif %}
+                                </span>
+                            </span>
+                            {% else %}
+                            <span class="">
+
+                                <span class="exp-date" data-date="{{ card.expiration_date }}">
+                                    {% if card.activated %}
+                                    {{ card.expiration_date|date:"m/y" }}
+                                    {% else %}
+                                    **********
+                                    {% endif %}
+                                </span>
+                            </span>
+                            {% endif %}
+                        </p>
+
+
+                    </div>
+
+
+                    <div class="card__overlay">
+                        <!-- <button class="btn btn-primary overlay__btn">View Details</button> -->
+                        {% if card.activated %}
+                        <button class="btn btn-primary overlay__btn" data-bs-toggle="modal"
+                            data-bs-target="#cardDetailsModal" data-card="{{ card.id }}"
+                            data-number="{% if card.activated %} {{ card.card_number }} {% else %} ********** {% endif %}"
+                            data-type="{{ card.card_type }}"
+                            data-exp="{% if card.card_expiration %} {{ card.card_expiration }} {% else %}  {{ card.expiration_date }} {% endif %}"
+                            data-cvv="{% if card.activated %}{{ card.cvv }}{% else %}***{% endif %}"
+                            data-status="{% if card.activated %}Active{% else %}Inactive{% endif %}"
+                            data-available-balance="{{ card.amount_in_card }}">
+                            View Details
+                        </button>
+                        {% else %}
+
+                        <a class="btn btn-primary overlay__btn" href="{% url 'credit_card_detail' card.id %}">Activate
+                            Card</a>
+                        {% endif %}
+                    </div>
+
+                    <span class="card__status">
+                        {% if card.activated %}
+                        <span class="badge bg-success">Active</span>
+                        {% else %}
+                        <span class="badge bg-danger">Inactive</span>
+                        {% endif %}
+                    </span>
+
+
+
+
+
+                    <div
+                        style="display: flex; flex-direction: column; justify-content: center; align-items: center; justify-self: flex-end; align-self: flex-end;">
+
+                        <span style="text-transform: uppercase;">{{card.card_type}}</span>
+                    </div>
+
+                </div>
+
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <br>
+
+            <h1 class="h3 mb-3 mt-3"><strong>Recent Transactions</strong> </h1>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="no-wrap">Date</th>
+                                    <th class="no-wrap">Description</th>
+                                    <th class="no-wrap">Account</th>
+                                    <th class="no-wrap">Amount</th>
+                                    <th class="no-wrap">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for transaction in transactions %}
+                                <tr>
+                                    <!-- <td>{{ transaction.timestamp|date:"M. d" }}</td> -->
+                                    <td class="no-wrap">{{ transaction.timestamp|date:"M. d" }}</td>
+                                    <td class="no-wrap">{{ transaction.transaction_type }}</td>
+                                    <td class="no-wrap">{% if transaction.from_account.account_type %}
+                                        {{transaction.from_account.account_type}}
+                                        {% else %}
+                                        ----
+                                        {% endif %}</td>
+                                    <td class="no-wrap">${{ transaction.amount }}</td>
+                                    <td class="no-wrap">
+                                        <span
+                                            class="badge {% if not transaction.status == 'Pending' %} bg-success {% else %} bg-danger {% endif %}">
+                                            {{ transaction.status|capfirst }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No transactions available</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Recent Transactions Section -->
+
+        <div class="card flex-fill w-100">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Transaction Overview</h5>
+            </div>
+            <div class="card-body py-3">
+                <div class="chart chart-sm">
+                    <canvas id="recent-transaction-line"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Modal -->
+    <div class="modal fade" id="cardDetailsModal" tabindex="-1" aria-labelledby="cardDetailsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cardDetailsModalLabel">Card Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Card Details in Grid Format -->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6"><strong>Card Type:</strong></div>
+                            <div class="col-6" id="modal-card-type"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><strong>Card Number:</strong></div>
+                            <div class="col-6" id="modal-card-number"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><strong>CVV:</strong></div>
+                            <div class="col-6" id="modal-card-cvv"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><strong>Expiration Date:</strong></div>
+                            <div class="col-6" id="modal-card-expiration"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6"><strong>Amount In Card:</strong></div>
+                            <div class="col-6" id="modal-card-available-balance"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+</main>
+{% endblock %}
+
+
+
+{% block script %}
+
+
+
+<script>
+    // JavaScript to populate the modal with card details
+    const cardDetailsModal = document.getElementById('cardDetailsModal');
+    cardDetailsModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget; // Button that triggered the modal
+
+        // Extract data from data-* attributes
+        const cardType = button.getAttribute('data-type');
+        const cardNumber = button.getAttribute('data-number');
+        const cardCvv = button.getAttribute('data-cvv');
+        const cardExp = button.getAttribute('data-exp');
+        const cardStatus = button.getAttribute('data-status');
+        const cardAmount = button.getAttribute('data-available-balance');
+
+        // Update modal content
+        document.getElementById('modal-card-type').textContent = cardType;
+        document.getElementById('modal-card-number').textContent = cardNumber;
+        document.getElementById('modal-card-cvv').textContent = cardCvv;
+        document.getElementById('modal-card-expiration').textContent = cardExp;
+        // document.getElementById('modal-card-status').textContent = cardStatus;
+        document.getElementById('modal-card-available-balance').textContent = `$${cardAmount}`;
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+        // Get data passed from the backend
+        var checkingData = JSON.parse('{{ checking_data|safe }}');
+        var savingsData = JSON.parse('{{ savings_data|safe }}');
+        var months = JSON.parse('{{ months_data|safe }}');
+
+
+
+        console.log(months)
+
+        // Line chart
+        new Chart(document.getElementById("recent-transaction-line"), {
+            type: "line",
+            data: {
+                labels: months,
+                datasets: [{
+                    label: "Checking Account ($)",
+                    fill: true,
+                    backgroundColor: "transparent",
+                    borderColor: window.theme.primary,
+                    data: checkingData
+                }, {
+                    label: "Saving Account ($)",
+                    fill: true,
+                    backgroundColor: "transparent",
+                    borderColor: "#ff0000",
+                    borderDash: [4, 4],
+                    data: savingsData
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    intersect: false
+                },
+                hover: {
+                    intersect: true
+                },
+                plugins: {
+                    filler: {
+                        propagate: false
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        reverse: true,
+                        gridLines: {
+                            color: "rgba(0,0,0,0.05)"
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            stepSize: 500
+                        },
+                        display: true,
+                        borderDash: [5, 5],
+                        gridLines: {
+                            color: "rgba(0,0,0,0)",
+                            fontColor: "#fff"
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>
+
+{% endblock %}

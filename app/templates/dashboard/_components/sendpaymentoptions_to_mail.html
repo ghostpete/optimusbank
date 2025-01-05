@@ -1,0 +1,12 @@
+<div class="">
+    
+    {% include 'dashboard/_components/payment_placeholder.html' %}
+
+    <form id="bankPaymentForm">
+        <label for="bankPaymentImage" class="form-label">Upload Receipt or Bank Transfer Screenshot confirming payment</label>
+        <input class="form-control" type="file" id="bankPaymentImage" name="bankPaymentImage" accept="image/*">
+        <div class="bankPaymentMessageResponse" id="bankPaymentMessageResponse"></div>
+        <button type="button" class="btn btn-primary mt-2" onclick="submitPayment('bank')">Submit Bank
+            Payment</button>
+    </form>
+</div>

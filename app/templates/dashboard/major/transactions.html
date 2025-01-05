@@ -1,0 +1,67 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+
+.no-wrap {
+    white-space: nowrap;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="content">
+    <div class="container-fluid p-0">
+        <h1 class="h3 mb-3"><strong>Transactions</strong></h1>
+        <p class="mb-3">Here are your most recent transactions.</p>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="no-wrap">Date</th>
+                                        <th class="no-wrap">Description</th>
+                                        <th class="no-wrap">Account</th>
+                                        <th class="no-wrap">Amount</th>
+                                        <th class="no-wrap">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for transaction in transactions %}
+                                    <tr>
+                                        <!-- <td>{{ transaction.timestamp|date:"M. d" }}</td> -->
+                                        <td class="no-wrap">{{ transaction.timestamp|date:"M. d" }}</td>
+                                        <td class="no-wrap">{{ transaction.transaction_type }}</td>
+                                        <td class="no-wrap">{% if transaction.from_account.account_type %}
+                                            {{transaction.from_account.account_type}}
+                                            {% else %}
+                                            ----
+                                            {% endif %}</td>
+                                        <td class="no-wrap">${{ transaction.amount }}</td>
+                                        <td class="no-wrap">
+                                            <span
+                                                class="badge {% if not transaction.status == 'Pending' %} bg-success {% else %} bg-danger {% endif %}">
+                                                {{ transaction.status|capfirst }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">No transactions available</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
