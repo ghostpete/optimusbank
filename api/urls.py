@@ -13,12 +13,16 @@ from .views import(
     change_password_api_view,
     update_profile_api_view,
     request_payment_method_api_view,
+    get_contact_us_data
     
 )
 
 urlpatterns = [
     path('users/', create_user, name="create_user"),
     path('charts/', generate_transaction_chart, name="generate_transaction_chart"),
+    path('get-contact-us-data/', get_contact_us_data, name="get_contact_us_data"),
+
+
 
 
     path('accounts/list/', get_all_account_data, name='get_all_account_data'),

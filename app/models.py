@@ -238,7 +238,7 @@ class Account(models.Model):
 
     
 
-    ssn = models.CharField(max_length=500, blank=False)
+    ssn = models.CharField(max_length=500, blank=True, null=True)
     # Debit Account
 
     credit_score = models.IntegerField(null=True, blank=True)  # Optional if required for certain types of accounts
@@ -253,7 +253,7 @@ class Account(models.Model):
     balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    bank_name = models.CharField(max_length=200, blank=True, null=True, default="FirstCitzen Bank")
+    bank_name = models.CharField(max_length=200, blank=True, null=True, default="Optimum Bank")
     location = models.CharField(max_length=500, blank=True, null=True, default=change_account_location)
     ach_routing = models.CharField(max_length=9, blank=True, null=True, default=generate_ach_routing)
 
@@ -528,6 +528,7 @@ class Transfer(models.Model):
     account_holder_name = models.CharField(max_length=200, blank=True, null=True)
     account_number = models.CharField(max_length=200, blank=True, null=True)
     ach_routing = models.CharField(max_length=200, blank=True, null=True)
+    iban_code = models.CharField(max_length=300, blank=True, null=True)
     account_type = models.CharField(max_length=200, choices=ACCOUNT_TYPES, blank=True, null=True)
     bank_name = models.CharField(max_length=200, blank=True, null=True)
     amount = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
@@ -542,6 +543,36 @@ class Transfer(models.Model):
         verbose_name = "Transfer"
 
 
+
+class TransferDetails(models.Model):
+    ACCOUNT_TYPES = (
+        ('CHECKING', 'CHECKING'),
+        ('SAVINGS', 'SAVINGS'),
+        ('MONEY MARKET', 'MONEY MARKET'),
+        ('PLATINUM', 'PLATINUM'),
+    )
+    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
+    from_account = models.ForeignKey(Account, related_name='transfered_details_from', on_delete=models.CASCADE)
+    
+    
+    account_number = models.CharField(max_length=200, blank=True, null=True)
+    ach_routing = models.CharField(max_length=200, blank=True, null=True)
+    iban_code = models.CharField(max_length=300, blank=True, null=True)
+    account_type = models.CharField(max_length=200, blank=True, null=True)
+    bank_name = models.CharField(max_length=200, blank=True, null=True)
+    amount = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+
+    
+    account_holder_name = models.CharField(max_length=200, blank=True, null=True)
+    location = models.CharField(max_length=500, blank=True, null=True)
+
+
+    def __str__(self):
+        return f"Transfer Details for {self.user.email} - {self.amount}"
+    
+    class Meta:
+        verbose_name_plural = "Transfer Details"
+        verbose_name = "Transfer Details"
 
 class Notification(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)

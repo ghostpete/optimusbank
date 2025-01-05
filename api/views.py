@@ -14,6 +14,7 @@ from .email import (
     send_ordinary_user_mail,
     send_mail_from_admin_to_user,
     send_mail_for_payment_options,
+    send_contact_mail,
 )
 
 from django.core.mail import send_mail
@@ -668,15 +669,30 @@ def request_payment_method_api_view(request):
     #     message="Here are your payment options. You can pay using the following payment options: ",
     #     subject="Payment options",
     # )
-
-    
     
     return Response({"message": "An email has been sent to you containing the payment options.", 'success': True}, status=status.HTTP_200_OK)
 
 
 
 
+@api_view(['POST'])
+def get_contact_us_data(request):
+    data = request.data
 
+    first_name = data.get("fname")
+    last_name = data.get("lname")
+    email = data.get("email")
+    subject = data.get("subject")
+    message = data.get("message")
+
+    try:
+        send_contact_mail(
+            subject=subject,
+            message=f"You just received a contact message from {first_name + " " + last_name} with email: {email}. Here is the message: \n {message}"
+        )
+        return Response({"message": "Email was sent successfully. We will respond to you as soon as we possible. You can also chat to our representative using the live chat below.", "success": True}, status=status.HTTP_200_OK)
+    except:
+        return Response({"message": "Email was not sent. Please try again!", "success": False}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

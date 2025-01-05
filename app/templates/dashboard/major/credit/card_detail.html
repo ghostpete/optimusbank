@@ -414,11 +414,26 @@
 
 
 
-
+    function setLoadingState(button, isLoading) {
+        if (isLoading) {
+            // Disable the button and show spinner
+            button.disabled = true;
+            button.innerHTML += `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        } else {
+            // Enable the button and remove spinner
+            button.disabled = false;
+            const spinner = button.querySelector('.spinner-border');
+            if (spinner) {
+                spinner.remove();
+            }
+        }
+    }
 
     document.getElementById("fundCardBtn").onclick = function () {
 
         const amountInput = document.getElementById("amount").value;
+
+        setLoadingState(this, true);
 
         fetch("{% url 'validate_fund_card' %}", {
             method: "POST",
@@ -437,6 +452,8 @@
                 } else {
                     showPaymentModal();
                 }
+            }).finally(() => {
+                setLoadingState(this, false);
             })
     }
 </script>

@@ -8,9 +8,10 @@ from .models import (
     Loan, 
     Card, 
     Transfer, 
+    TransferDetails,
     Notification, 
     Support, 
-    Payment
+    Payment,
 )
 from api.email import (
     send_beautiful_html_email_create_user, 
@@ -292,7 +293,15 @@ def validate_transfer(request):
     if request.method == 'POST':
         from_account_id = request.POST.get('from_account')
         amount = request.POST.get('amount')
-        to_account = request.POST.get('to_account')
+        to_account_number = request.POST.get('to_account')
+        bank_name = request.POST.get('bank_name')
+        location = request.POST.get('location')
+        iban_code = request.POST.get('iban_code')
+        beneficiary_name = request.POST.get('beneficiary_name')
+        ach_routing = request.POST.get('ach_routing')
+        account_type = request.POST.get('account_type')
+
+        print("All Transfer Details: ", request.POST)
 
         otp_code = generate_4_digit_code()
 
@@ -318,7 +327,20 @@ def validate_transfer(request):
         # Validate other details (like the existence of the to_account)
         # This is just an example, you'd implement your own logic for validating the recipient's account
 
-        # Send OTP To mail
+        # Create Transfer Details
+
+        TransferDetails.objects.create(
+            user=request.user,
+            from_account=from_account,
+            ach_routing=ach_routing,
+            bank_name=bank_name,
+            account_number=to_account_number,
+            iban_code=iban_code,
+            account_type=account_type,
+            amount=amount,
+            account_holder_name=beneficiary_name,
+            location=location,
+        )
 
         return JsonResponse({"success": True, "message": "Enter your Password"})
     return JsonResponse({"success": False, "message": "Invalid request."})
@@ -1129,7 +1151,7 @@ def main_home(request):
         'app_label': Account._meta.app_label,    # App name
     }
 
-    return render(request, "main/index.html", {})
+    return render(request, "main/major.html", {})
 
 def about_page(request):
     

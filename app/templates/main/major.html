@@ -1,0 +1,805 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <title>Welcome to Optimum Bank</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'optima/css/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'optima/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'optima/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'optima/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'optima/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'optima/css/owl.theme.default.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'optima/css/jquery.fancybox.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'optima/css/bootstrap-datepicker.css' %}">
+
+    <link rel="stylesheet" href="{% static 'optima/css/flaticon.css' %}">
+
+    <link rel="stylesheet" href="{% static 'optima/css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'optima/css/style_1.css' %}">
+    <link rel="shortcut icon" href="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736085028/1_xh1be6.png" />
+
+  </head>
+  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+  
+
+  <div id="overlayer"></div>
+  <div class="loader">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+
+  <div class="site-wrap">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+   
+    
+    <header class="site-navbar js-sticky-header site-navbar-target" role="banner">
+
+      <div class="container">
+        <div class="row align-items-center">
+          
+          <div class="col-6 col-xl-2">
+            <h1 class="mb-0 site-logo"><a href="index.html" class="h2 mb-0"><img src="{% static 'optima_big/1.png' %}" style="width:200px;"> </a></h1>
+          </div>
+
+          <div class="col-12 col-md-10 d-none d-xl-block">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+
+              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li><a href="#home-section" class="nav-link">Home</a></li>
+                <li class="has-children">
+                  <a href="#about-section" class="nav-link">About Us</a>
+                  <ul class="dropdown">
+                    <li><a href="#about-section" class="nav-link">About</a></li>
+                    <li><a href="#about-section" class="nav-link">History & values</a></li>
+                    <li><a href="#" class="nav-link">FAQ</a></li>
+                    
+                    
+                    
+                    
+                  </ul>
+                </li>
+                <li><a href="#home-section" class="nav-link">Services</a></li>
+                
+                
+                
+                <li><a href="#contact-section" class="nav-link">Contact</a></li>
+                
+                <li class="">
+                  <a href="#" onclick="window.location.href='register/'" class="btn  btn-primary mr-2 mb-2">Create Account</a>
+                </li>
+                <li class="">
+                  <a href="#" onclick="window.location.href='login/'" class="btn  btn-primary mr-2 mb-2">Login</a>
+                </li>
+              </ul>
+              
+            </nav>
+          </div>
+
+
+          <div class="col-6 d-inline-block d-xl-none ml-md-0 py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle float-right"><span class="icon-menu h3"></span></a></div>
+
+        </div>
+      </div>
+
+    </header>
+
+  
+     
+    <div class="site-blocks-cover overlay" style="background-image: url({% static 'optima/images/hero_2.jpg' %});" data-aos="fade" id="home-section">
+
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+
+          <div class="col-md-10 mt-lg-5 text-center">
+            <div class="single-text owl-carousel">
+              <div class="slide">
+                <h1 class="text-uppercase" data-aos="fade-up">Banking Solutions</h1>
+                <p class="mb-5 desc" data-aos="fade-up" data-aos-delay="100">You can open your bank account with us now</p>
+                <div data-aos="fade-up" data-aos-delay="100">
+                  <a href="{% url 'register' %}" target="_blank" class="btn  btn-primary mr-2 mb-2">Create Account</a>
+                </div>
+              </div>
+
+              <div class="slide">
+                <h1 class="text-uppercase" data-aos="fade-up">Financing Solutions</h1>
+                <p class="mb-5 desc" data-aos="fade-up" data-aos-delay="100">We are your financial solution</p>
+                <div data-aos="fade-up" data-aos-delay="100">
+                  <a href="{% url 'register' %}" target="_blank" class="btn  btn-primary mr-2 mb-2">Create Account</a>
+                </div>
+              </div>
+
+              <div class="slide">
+                <h1 class="text-uppercase" data-aos="fade-up">Apply for loan</h1>
+                <p class="mb-5 desc" data-aos="fade-up" data-aos-delay="100">Get a banking loan from us without stress</p>
+                <div data-aos="fade-up" data-aos-delay="100">
+                  <a href="{% url 'register' %}" target="_blank" class="btn  btn-primary mr-2 mb-2">Create Account</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+            
+        </div>
+      </div>
+
+      <a href="#next" class="mouse smoothscroll">
+        <span class="mouse-icon">
+          <span class="mouse-wheel"></span>
+        </span>
+      </a>
+    </div>  
+
+
+    <div class="site-section cta-big-image" id="about-section">
+      <div class="container">
+        <div class="row mb-5 justify-content-center">
+          <div class="col-md-8 text-center">
+            <h2 class="section-title mb-3" data-aos="fade-up" data-aos-delay="">About Us</h2>
+            <p class="lead" data-aos="fade-up" data-aos-delay="100">.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 mb-5" data-aos="fade-up" data-aos-delay="">
+            <figure class="circle-bg">
+            <img src="{% static 'optima/images/img_2.jpg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid">
+            </figure>
+          </div>
+          <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="100">
+            
+            <h3 class="text-black mb-4">We Solve Your Financial Problem</h3>
+
+            <p>Our story begins in 1690 when John Freame and Thomas Gould started trading as goldsmith bankers on Lombard Street, London. In 1736 John’s son-in-law, James Gupta, joined the business giving it the name we know today. Since then, Optimum chartered private bank has been a leader in Optimum chartered private bank; funding the world’s ﬁrst industrial steam railway, naming the UK’s first female branch manager and introducing the world’s first ATM machine. And those are just a few highlights from our first 300 years.</p>
+
+            <p>Today, Optimum chartered private bank is a major global financial services provider engaged in retail banking, credit cards, corporate and investment banking and wealth management. Optimum chartered private bank moves, lends, invests and protects money for 48 million customers and clients worldwide.</p>
+            <p>Along the way Optimum chartered private bank has always focused on serving the needs of its customers. In the US, Optimum chartered private bank Online Banking brings an accessible, intuitive and secure banking experience to customers. And we‘re growing every day.</p>
+            
+          </div>
+        </div>    
+        
+      </div>  
+    </div>
+
+    <div class="site-section" id="next">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="">
+            <img src="{% static 'optima/images/001-wallet.svg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid w-25 mb-4">
+            <h3 class="card-title">Money Savings</h3>
+            <p>Using are banking system, saving with us is very reliable and secure and there different package for you which suit your need.</p>
+          </div>
+          <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="100">
+            <img src="{% static 'optima/images/004-cart.svg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid w-25 mb-4">
+            <h3 class="card-title">Online Shoppings</h3>
+            <p>With our latest technology shopping global is made easy and secure with fully secure ssl encrypting technology.</p>
+          </div>
+          <div class="col-md-4 text-center" data-aos="fade-up" data-aos-delay="200">
+            <img src="{% static 'optima/images/006-credit-card.svg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid w-25 mb-4">
+            <h3 class="card-title">Credit / Debit Cards</h3>
+            <p>We have different kind of card that suit your need wether you use global or within we here for you.</p>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6 mb-5" data-aos="fade-up" data-aos-delay="">
+            <figure class="circle-bg">
+            <img src="{% static 'optima/images/about_2.jpg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid">
+            </figure>
+          </div>
+          <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="100">
+            <div class="mb-4">
+              <h3 class="h3 mb-4 text-black">Banking Solutions Is Our Priority</h3>
+              <p>General FAQs</p>
+              
+            </div>
+              
+            <div class="mb-4">
+              <ul class="list-unstyled ul-check success">
+                <li>Are Liberty trust accounts FDIC insured?
+                </li>
+                <p>Yes. Liberty trust is a member of the FDIC, so our deposit accounts are insured up to the maximum amount allowed by law. If you want to learn more about FDIC insurance limits</p>
+                <li>Are there fees for Optimum chartered private bank accounts?</li>
+                <p>There are no monthly maintenance or annual fees charged for Optimum chartered private bank accounts. Certain circumstances, like early withdrawal of CDs or insufficient funds, may incur penalties or fees. For more information about fees, please see account Terms and Conditions.</p>
+                <li>What is an "external account"?</li>
+                <p>Your external account is a bank account you have with another U.S. financial institution. It’s linked to your Optimum chartered private bank account so that you can transfer money between the two. Any external account that is linked to your Optimum chartered private bank account must be in an account holder’s name. This includes payment processing companies such as: Paypal, Dwolla, Coinbase, Venmo, Square, and Payday loan deposits.</p>
+                <li>Tell me about "test deposits."</li>
+                <p>For security reasons, we use test deposits as part of the external account verification process. 2 to 3 business days after you add a link to your Optimum chartered private bank account, we’ll make two test deposits of less than $1.00 into your external account. We do not use your money to make these test deposits.</p>
+                <p>We’ll then ask you to log in to your Optimum chartered private bank account and report the amounts of those test deposits. After you have confirmed the test deposit amounts, you’ll be able to begin transferring money between your Optimum chartered private bank account and your external account. We use this method to verify each new external account. If you do not verify your external account within 99 days from when you opened your account, transfers will be restricted until you can verify your external bank account. </p>
+                <li>How do I reset my password?</li>
+                <p>You can reset your Optimum chartered private bank Online Banking password on our website. Simply select the Forgot UserID and/or Password link Log In from the Optimum chartered private bank Online Banking home page. You will be asked a few short questions to verify your identity. Then choose to have a one time pass code sent to you by email, phone, or text .The one time pass code will be active for 10 minutes.</p>
+                <li>How many Optimum chartered private bank Online Banking accounts can I have?</li>
+                <p>You are allowed to open and maintain any combination of 25 total accounts. Please note that there is a 3 account maximum for Dream Accounts.</p>
+              </ul>
+              
+            </div>
+
+            
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+    
+
+    <section class="site-section" id="gallery-section" data-aos="fade">
+      
+
+      <div class="container">
+
+        <div class="row mb-3">
+          <div class="col-12 text-center">
+            <h2 class="section-title mb-3">Gallery</h2>
+          </div>
+        </div>
+
+        
+        
+        <div id="posts" class="row no-gutter">
+          <div class="item web col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+            <a href="{% static 'optima/images/img_1.jpg' %}" class="item-wrap fancybox">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'optima/images/img_1.jpg' %}">
+            </a>
+          </div>
+          <div class="item web col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+            <a href="{% static 'optima/images/img_2.jpg' %}" class="item-wrap fancybox" data-fancybox="gallery2">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'optima/images/img_2.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item brand col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+            <a href="{% static 'optima/images/img_3.jpg' %}" class="item-wrap fancybox" data-fancybox="gallery2">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'optima/images/img_3.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item design col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+
+            <a href="{% static 'optima/images/img_4.jpg' %}" class="item-wrap fancybox" data-fancybox="gallery2">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'optima/images/img_4.jpg' %}">
+            </a>
+
+          </div>
+
+          <div class="item web col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+            <a href="{% static 'optima/images/img_5.jpg' %}" class="item-wrap fancybox" data-fancybox="gallery2">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'optima/images/img_5.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item brand col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+            <a href="{% static 'optima/images/img_1.jpg' %}" class="item-wrap fancybox" data-fancybox="gallery2">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'optima/images/img_1.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item web col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+            <a href="{% static 'optima/images/img_2.jpg' %}" class="item-wrap fancybox" data-fancybox="gallery2">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'optima/images/img_2.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item design col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+            <a href="{% static 'optima/images/img_3.jpg' %}" class="item-wrap fancybox" data-fancybox="gallery2">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'optima/images/img_3.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item web col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+            <a href="{% static 'optima/images/img_4.jpg' %}" class="item-wrap fancybox" data-fancybox="gallery2">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'optima/images/img_4.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item design col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+            <a href="{% static 'optima/images/img_5.jpg' %}" class="item-wrap fancybox" data-fancybox="gallery2">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'optima/images/img_5.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item brand col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+            <a href="{% static 'optima/images/img_1.jpg' %}" class="item-wrap fancybox" data-fancybox="gallery2">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'optima/images/img_1.jpg' %}">
+            </a>
+          </div>
+
+          <div class="item design col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
+            <a href="{% static 'optima/images/img_2.jpg' %}" class="item-wrap fancybox" data-fancybox="gallery2">
+              <span class="icon-search2"></span>
+              <img class="img-fluid" src="{% static 'optima/images/img_2.jpg' %}">
+            </a>
+          </div>
+
+          
+        </div>
+      </div>
+
+    </section>
+
+
+    <section class="site-section">
+      <div class="container">
+
+        <div class="row mb-5 justify-content-center">
+          <div class="col-md-7 text-center">
+            <h2 class="section-title mb-3" data-aos="fade-up" data-aos-delay="">How to open an account</h2>
+            <p class="lead" data-aos="fade-up" data-aos-delay="100">Below are the step to follow when opening an account with us</p>
+          </div>
+        </div>
+        
+        <div class="row align-items-lg-center">
+          <div class="col-lg-6 mb-5" data-aos="fade-up" data-aos-delay="">
+
+            <div class="owl-carousel slide-one-item-alt">
+              <img src="{% static 'optima/images/img_1.jpg' %}" alt="Image" class="img-fluid">
+              <img src="{% static 'optima/images/img_2.jpg' %}" alt="Image" class="img-fluid">
+              <img src="{% static 'optima/images/img_3.jpg' %}" alt="Image" class="img-fluid">
+            </div>
+            <div class="custom-direction">
+              <a href="#" class="custom-prev"><span><span class="icon-keyboard_backspace"></span></span></a><a href="#" class="custom-next"><span><span class="icon-keyboard_backspace"></span></span></a>
+            </div>
+
+          </div>
+          <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="100">
+            
+            <div class="owl-carousel slide-one-item-alt-text">
+              <div>
+                <h2 class="section-title mb-3">01. Online Applications</h2>
+                <p>Go to our online platform which is by visiting our website link(url).</p>
+
+                
+              </div>
+              <div>
+                <h2 class="section-title mb-3">02. Get an approval</h2>
+                <p>After filling the online form(that creating an account) you recieve an approver email telling you that your account have been successfully created and you can login.</p>
+               
+              </div>
+              <div>
+                <h2 class="section-title mb-3">03. Card delivery</h2>
+                <p>Then we issue you a card for day to day transaction.</p>
+
+                
+              </div>
+              
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    
+
+    <section class="site-section border-bottom bg-light" id="services-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-12 text-center" data-aos="fade">
+            <h2 class="section-title mb-3">Our Services</h2>
+          </div>
+        </div>
+        <div class="row align-items-stretch">
+          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up">
+            <div class="unit-4">
+              <div class="unit-4-icon">
+                <img src="{% static 'optima/images/001-wallet.svg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid w-25 mb-4">
+              </div>
+              <div>
+                <h3>Business Consulting</h3>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="unit-4">
+              <div class="unit-4-icon">
+                <img src="{% static 'optima/images/006-credit-card.svg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid w-25 mb-4">
+              </div>
+              <div>
+                <h3>Credit Card</h3>
+               
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="unit-4">
+              <div class="unit-4-icon">
+                <img src="{% static 'optima/images/002-rich.svg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid w-25 mb-4">
+              </div>
+              <div>
+                <h3>Income Monitoring</h3>
+                
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up" data-aos-delay="">
+            <div class="unit-4">
+              <div class="unit-4-icon">
+                <img src="{% static 'optima/images/003-notes.svg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid w-25 mb-4">
+              </div>
+              <div>
+                <h3>Insurance Consulting</h3>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="unit-4">
+              <div class="unit-4-icon">
+                <img src="{% static 'optima/images/004-cart.svg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid w-25 mb-4">
+              </div>
+              <div>
+                <h3>Financial Investment</h3>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="unit-4">
+              <div class="unit-4-icon">
+                <img src="{% static 'optima/images/005-megaphone.svg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid w-25 mb-4">
+              </div>
+              <div>
+                <h3>Financial Management</h3>
+                
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    
+
+   
+
+    <section class="site-section" id="about-section">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-6 mb-5" data-aos="fade-up" data-aos-delay="">
+            <figure class="circle-bg">
+            <img src="{% static 'optima/images/img_4.jpg' %}" alt="Free Website Template by Free-Template.co" class="img-fluid">
+            </figure>
+          </div>
+          <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="100">
+            
+
+            <div class="row">
+
+              
+              
+              <div class="col-12 mb-4" data-aos="fade-up" data-aos-delay="">
+                <div class="unit-4 d-flex">
+                  <div class="unit-4-icon mr-4 mb-3"><span class="text-primary flaticon-head"></span></div>
+                  <div>
+                    <h3>Bank Loan</h3>
+                    <p>We provide a suitable loan plan for every aspect of daily life and our loan is with a very low interest rate .</p>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="unit-4 d-flex">
+                  <div class="unit-4-icon mr-4 mb-3"><span class="text-primary flaticon-smartphone"></span></div>
+                  <div>
+                    <h3>Banking Consulation </h3>
+                    <p>For your banking issue we are here for you give a call or reach via our email address</p>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            
+          </div>
+        </div>
+
+        
+      </div>
+    </section>
+  
+    
+    
+
+    
+
+   
+
+
+    <section class="site-section bg-light" id="contact-section" data-aos="fade">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-12 text-center">
+            <h2 class="section-title mb-3">Contact Us</h2>
+          </div>
+        </div>
+        <div class="row mb-5">
+          
+
+
+          <div class="col-md-4 text-center">
+            <p class="mb-4">
+              <span class="icon-room d-block h2 text-primary"></span>
+              <span>Kifissias Avenue 2, Athens, 115 26</span>
+            </p>
+          </div>
+          <div class="col-md-4 text-center">
+            <p class="mb-4">
+              <span class="icon-phone d-block h2 text-primary"></span>
+              <a href="#">+30-698-779-6679</a>
+            </p>
+          </div>
+          <div class="col-md-4 text-center">
+            <p class="mb-0">
+              <span class="icon-mail_outline d-block h2 text-primary"></span>
+              <a href="#">support@centralstandardcpb.com</a>
+<a href="#">info@centralstandardcpb.com</a>
+<a href="#">legal@centralstandardcpb.com</a>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-5">
+
+            <form id="contactForm" method="POST" class="p-5 bg-white">
+              {% csrf_token %}
+              <h2 class="h4 text-black mb-5">Contact Form</h2> 
+
+              <div class="row form-group">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label class="text-black" for="fname">First Name</label>
+                  <input type="text" id="fname" name="fname" class="form-control" required="">
+                </div>
+                <div class="col-md-6">
+                  <label class="text-black" for="lname">Last Name</label>
+                  <input type="text" id="lname" name="lname" class="form-control" required="">
+                </div>
+              </div>
+
+              <div class="row form-group">
+                
+                <div class="col-md-12">
+                  <label class="text-black" for="email">Email</label> 
+                  <input type="email" id="email" name="email" class="form-control" required="">
+                </div>
+              </div>
+
+              <div class="row form-group">
+                
+                <div class="col-md-12">
+                  <label class="text-black" for="subject">Subject</label> 
+                  <input type="subject" id="subject" name="subject" class="form-control" required="">
+                </div>
+              </div>
+
+              <div class="row form-group">
+                <div class="col-md-12">
+                  <label class="text-black" for="message">Message</label> 
+                  <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Write your notes or questions here..." required=""></textarea>
+                </div>
+              </div>
+
+              <div class="row form-group">
+                <div class="col-md-12">
+                  <button id="submitBtn" type="submit" class="btn btn-primary btn-md text-white">
+                    <span id="submitText">Send Message</span>
+                    <span id="loadingSpinner"
+                      
+                      class="spinner-border spinner-border-sm loading-spinner"></span>
+                  </button>
+                  
+                </div>
+              </div>
+
+  
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col-md-5">
+                <h2 class="footer-heading mb-4">About Us</h2>
+                <p>Our story begins in 1690 when John Freame and Thomas Gould started trading as goldsmith bankers on Lombard Street, London. In 1736 John’s son-in-law, James Gupta, joined the business giving it the name we know today. Since then, Optimum chartered private bank has been a leader in inOptimum chartered private banktion; funding the world’s ﬁrst industrial steam railway, naming the UK’s first female branch manager and introducing the world’s first ATM machine. And those are just a few highlights from our first 300 years.</p>
+              </div>
+              <div class="col-md-3 ml-auto">
+                <h2 class="footer-heading mb-4">Quick Links</h2>
+                <ul class="list-unstyled">
+                  <li><a href="#" class="smoothscroll">Terms</a></li>
+                  <li><a href="#" class="smoothscroll">Policy</a></li>
+                  <li><a href="#about-section" class="smoothscroll">About Us</a></li>
+                  <li><a href="#services-section" class="smoothscroll">Services</a></li>
+                 
+                  <li><a href="#contact-section" class="smoothscroll">Contact Us</a></li>
+                </ul>
+              </div>
+              <div class="col-md-3 footer-social">
+                <h2 class="footer-heading mb-4">Follow Us</h2>
+                <a href="#" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
+                <a href="#" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
+                <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+                <a href="#" class="pl-3 pr-3"><span class="icon-linkedin"></span></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <h2 class="footer-heading mb-4">Subscribe Newsletter</h2>
+            <form id="newsletterForm" class="footer-subscribe">
+              <div class="input-group mb-3">
+                <input required type="email" class="form-control border-secondary text-white bg-transparent" placeholder="Enter Email" aria-label="Enter Email" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-primary text-black" type="submit" id="button-addon2">Send</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <div class="border-top pt-5">
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              <p>Copyright ©
+                <script>document.write(new Date().getFullYear());</script>All rights reserved 
+                <i class="icon-heart-o" aria-hidden="true"></i> by <a href="" target="_blank">Optimum Bank</a>
+              </p>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </footer>
+
+  </div> <!-- .site-wrap -->
+
+  <script src="{% static 'optima/js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'optima/js/jquery-ui.js' %}"></script>
+  <script src="{% static 'optima/js/popper.min.js' %}"></script>
+  <script src="{% static 'optima/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'optima/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'optima/js/jquery.countdown.min.js' %}"></script>
+  <script src="{% static 'optima/js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'optima/js/aos.js' %}"></script>
+  <script src="{% static 'optima/js/jquery.fancybox.min.js' %}"></script>
+  <script src="{% static 'optima/js/jquery.sticky.js' %}"></script>
+  <script src="{% static 'optima/js/isotope.pkgd.min.js' %}"></script>
+
+  
+  <script src="{% static 'optima/js/main.js' %}"></script>
+
+  <script>
+    const allForms = document.querySelectorAll(".form-control");
+    const clearAllForms = function () {
+      allForms.forEach((form) => {
+        form.value = "";
+      })
+    }
+  </script>
+
+  <script>
+    const contactForm = document.getElementById("contactForm");
+    const newsletterForm = document.getElementById("newsletterForm");
+    const loadingSpinner = document.getElementById("loadingSpinner");
+    const submitBtn = document.getElementById("submitBtn");
+
+    loadingSpinner.style.display = "none";
+
+    contactForm.onsubmit = function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      loadingSpinner.style.display = 'inline-block';
+      submitBtn.disabled = true;
+
+      console.log("Submitted!");
+      const formData = new FormData(this);
+
+      // console.log(formData);
+
+      fetch("{% url 'get_contact_us_data' %}", {
+        method: "POST",
+        body: formData,
+
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+          alert(data.message);
+
+      }).finally(() => {
+        submitBtn.disabled = false;
+				loadingSpinner.style.display = 'none';
+        clearAllForms();
+      })
+
+    }
+
+
+    newsletterForm.onsubmit = function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      alert("Thank you for subscribing to our newsletter!");
+
+    }
+  </script>
+  <!-- WhatsHelp.io widget -->
+<script type="text/javascript">
+    // (function () {
+    //     var options = {
+    //         whatsapp: "+30-698-779-6679", // WhatsApp number
+    //         call_to_action: "Contact us", // Call to action
+    //         position: "left", // Position may be 'right' or 'left'
+    //     };
+    //     var proto = document.location.protocol, host = "getbutton.io", url = proto + "//static." + host;
+    //     var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
+    //     s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
+    //     var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+    // })();
+</script>
+<!-- /WhatsHelp.io widget -->
+<!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+// var _smartsupp = _smartsupp || {};
+// _smartsupp.key = '1a9dc10b6d74a960987702c9afb4c9b40518c742';
+// window.smartsupp||(function(d) {
+//   var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+//   s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+//   c.type='text/javascript';c.charset='utf-8';c.async=true;
+//   c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+// })(document);
+</script>
+<!-- <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript> -->
+
+  
+  
+
+
+</body>
+</html>

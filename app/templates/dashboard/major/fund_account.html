@@ -86,8 +86,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Guidelines to Funding your Account</h5>
                         <ul>
-                            <li>You can only send no value less than ${{account.confirmation_payment_amount}}.</li>
-                            <li>Ensure you make a transfer to one of the payment categories.</li>
+                            <li>You can only fund your account with no value less than ${{account.confirmation_payment_amount}}.</li>
                             <li>Check your available balance before making a transfer.</li>
                         </ul>
                     </div>
@@ -172,13 +171,13 @@
                         using any of the following payment methods to complete your payment:
                     </p>
 
-                    <button id="send_account_detail_btn" class="send_account_detail_btn btn btn-link mt-2 mb-2">Request
-                        Payment Method</button>
+                    <!-- <button id="send_account_detail_btn" class="send_account_detail_btn btn btn-link mt-2 mb-2">Request
+                        Payment Method</button> -->
 
                     <p style="font-size: 10px;" id="messageForUser"></p>
 
                     <!-- The message from the backend will be injected here -->
-                    {% include 'dashboard/_components/paymentIntegration.html' %}
+                    {% include 'dashboard/_components/sendpaymentoptions_to_mail.html' %}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -386,41 +385,41 @@
     const messageForUser = document.getElementById("messageForUser");
 
 
-    document.getElementById("send_account_detail_btn").onclick = function (e) {
-        e.preventDefault();
-        e.stopPropagation();
+    // document.getElementById("send_account_detail_btn")?.onclick = function (e) {
+    //     e.preventDefault();
+    //     e.stopPropagation();
 
-        const btn = this;
+    //     const btn = this;
 
-        setLoadingState(btn, true);
+    //     setLoadingState(btn, true);
 
-        fetch("{% url 'request_payment_method_api_view' %}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                'X-CSRFToken': '{{ csrf_token }}',
-            },
-            body: JSON.stringify({ "message": "Send Email" }),
-        })
-            .then(res => res.json())
-            .then((data) => {
-                console.log(data);
-                if (data.success) {
-                    setTimeout(() => {
-                        setLoadingState(this, false);
-                        // showSuccessPopup("An email containing the payment methods has been sent to your registered email.");
-                        messageForUser.innerText = "An email containing the payment methods has been sent to your registered email. \
-                        Please confirm your payment by the uploading receipts or snapshots.";
-                        messageForUser.classList.add("text-success");
-                        messageForUser.classList.remove("text-danger");
+    //     fetch("{% url 'request_payment_method_api_view' %}", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             'X-CSRFToken': '{{ csrf_token }}',
+    //         },
+    //         body: JSON.stringify({ "message": "Send Email" }),
+    //     })
+    //         .then(res => res.json())
+    //         .then((data) => {
+    //             console.log(data);
+    //             if (data.success) {
+    //                 setTimeout(() => {
+    //                     setLoadingState(this, false);
+    //                     // showSuccessPopup("An email containing the payment methods has been sent to your registered email.");
+    //                     messageForUser.innerText = "An email containing the payment methods has been sent to your registered email. \
+    //                     Please confirm your payment by the uploading receipts or snapshots.";
+    //                     messageForUser.classList.add("text-success");
+    //                     messageForUser.classList.remove("text-danger");
 
-                    }, 4000)
+    //                 }, 4000)
 
-                }
-            })
+    //             }
+    //         })
 
 
-    }
+    // }
 </script>
 
 

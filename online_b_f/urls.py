@@ -6,9 +6,9 @@ from django.conf.urls.static import static
 from django.shortcuts import render
 from django.conf.urls import handler404
 
-admin.site.site_header = "FCB Administration"
-admin.site.site_title = "FCB Admin Portal"
-admin.site.index_title = "Welcome to FCB Admin Portal"
+admin.site.site_header = "Optimum Bank Administration"
+admin.site.site_title = "Optimum Bank Admin Portal"
+admin.site.index_title = "Welcome to Optimum Bank Admin Portal"
 
 urlpatterns = [
     path('admin/', admin.site.urls),

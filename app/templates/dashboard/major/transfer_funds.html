@@ -54,6 +54,7 @@
                                 </select>
                                 <span class="text-sm">Only activated accounts can make a transfer.</span>
                             </div>
+                            
 
                             <div class="mb-3">
                                 <label for="to_account" class="form-label">To Account <span class="text-danger">*</span>
@@ -69,6 +70,20 @@
                                 </label>
                                 <input type="text" class="form-control to_disable" id="bank_name" name="bank_name"
                                     placeholder="Recipient Bank Name" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="account_type" class="form-label">Account Type<span
+                                        class="text-danger">*</span></label>
+                                <select class="form-select to_disable" id="account_type" name="account_type" required>
+                                    <option value="" disabled selected>Select account</option>
+
+                                    <option value="MONEY MARKET">MONEY MARKET</option>
+                                    <option value="CHECKING">CHECKING</option>
+                                    <option value="SAVINGS">SAVINGS</option>
+                                    <option value="PLATINUM">PLATINUM</option>
+                                </select>
+                                <span class="text-sm">Select Recipient Account Type.</span>
                             </div>
 
                             <div class="mb-3">
@@ -94,6 +109,11 @@
                             </div>
 
                             <div class="mb-3">
+                                <label for="iban_code" class="form-label">Iban Code<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control to_disable" id="iban_code" name="iban_code"
+                                    placeholder="Iban Code">
+                            </div>
+                            <div class="mb-3">
                                 <label for="ach_routing" class="form-label">ACH Routing (Optional)</label>
                                 <input type="text" class="form-control to_disable" id="ach_routing" name="ach_routing"
                                     placeholder="ACH Routing Number">
@@ -106,12 +126,7 @@
                                     name="beneficiary_name" placeholder="Beneficiary Name" required>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="address" class="form-label">Beneficiary Address<span
-                                        class="text-danger">*</span></label>
-                                <textarea class="form-control to_disable" id="address" name="address"
-                                    placeholder="Beneficiary Address" required rows="2"></textarea>
-                            </div>
+                            
 
 
                             <button type="button" class="btn btn-link cancel_transfer d-none">Cancel Transfer</button>
@@ -604,6 +619,7 @@
 
                     costOfTransactionPayment()
                     const formData = new FormData(this);
+                    setLoadingState(submitButton, true);
 
                     fetch("{% url 'validate_transfer' %}", {
                         method: "POST",

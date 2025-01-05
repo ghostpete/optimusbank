@@ -34,12 +34,12 @@
             <div class="bank__card"
                 style="background-image: url('{% static 'images/firstcitizenbg-background.jpg' %}');">
                 <div class="d-flex align-items-center gap-2">
-                    <img width="20" class="fcb-image__image" src="{% static 'images/image.20240613.png' %}"
-                        srcset="{% static 'images/image.20240613_1.png 2x' %}, {% static 'images/image.20240613.png 1x' %}"
+                    <img width="30" class="fcb-image__image" src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png"
+                        srcset="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png, https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png"
                         alt="First Citizens Bank Logo" data-trackable="true"
                         data-asset-id="dc55e3cd-91af-480a-b6da-ccc2cb83406d" loading="lazy" tabindex="0">
                     <p class="name__of__bank">
-                        FirstCitizen Bank
+                     Optimum Bank
                     </p>
                 </div>
 
@@ -93,7 +93,7 @@
                         data-exp="{% if card.card_expiration %} {{ card.card_expiration }} {% else %}  {{ card.expiration_date }} {% endif %}"
                         data-cvv="{% if card.activated %}{{ card.cvv }}{% else %}***{% endif %}"
                         data-status="{% if card.activated %}Active{% else %}Inactive{% endif %}"
-                        data-available-balance="{{ card.amount_in_card }}">
+                        data-available-balance="{% if card.account.balance %} {{ card.account.balance }} {% else %} {{ card.amount_in_card }} {% endif %}">
                         View Details
                     </button>
                     {% else %}
