@@ -6,44 +6,31 @@ from django.conf import settings
 import os
 from decouple import config
 
+
+
 ADMIN_EMAIL = settings.ADMIN_EMAIL
 FROM_EMAIL = settings.FROM_EMAIL
 EMAIL_PASSWORD = settings.EMAIL_PASSWORD
 EMAIL_SMTP_SERVER = settings.EMAIL_SMTP_SERVER
-EMAIL_SMTP_PORT= 587
-
-MAIN_ADMIN="moritzhorgan123@hotmail.com"
-
-
-logo_file = os.path.join(settings.BASE_DIR, "static", "images", "firstoriginallogo.png")
+EMAIL_SMTP_PORT=465
+MAIN_ADMIN = ADMIN_EMAIL
 
 
-def send_beautiful_html_email_create_user(
-    bank_id, 
-    account_details, 
-    to_email, 
-):
-    print(logo_file)
+def send_beautiful_html_email_create_user(bank_id, account_details, to_email):
     # Email subject
-    subject = "Welcome to Our Bank"
+    subject = "Welcome to Optimum Bank"
     
     # Create the HTML content
     html_content = f"""
     <html>
     <body style="font-family: Arial, sans-serif; color: #333; background-color: #f4f4f4; padding: 20px;">
         <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <img src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736081440/1_axn4zj.png" alt="Bank Logo" style="width: 150px; height: auto;"/>
-            </div>
-            <h2 style="color: #4CAF50; text-align: center;">Welcome to Our Bank!</h2>
+            <h2 style=" text-align: center;">Welcome to Optimum Bank!</h2>
             <p style="font-size: 16px; line-height: 1.6;">
-                Dear customer,
+                Dear Customer,
             </p>
             <p style="font-size: 16px; line-height: 1.6;">
                 Your bank ID is: <strong>{bank_id}</strong>
-            </p>
-            <p>
-                You can now log into your account with your bank ID.
             </p>
             <p style="font-size: 16px; line-height: 1.6;">
                 We're thrilled to have you with us. If you have any questions, feel free to reach out to our customer service team.
@@ -55,38 +42,118 @@ def send_beautiful_html_email_create_user(
     </body>
     </html>
     """
+
+    # Set up the email message
+    msg = MIMEMultipart()
+    msg['From'] = FROM_EMAIL
+    msg['To'] = to_email
+    msg['Subject'] = subject
+
+    # Attach the HTML content to the email
+    msg.attach(MIMEText(html_content, 'html'))
+
+    try:
+        # Set up the SMTP server connection using SSL
+        with smtplib.SMTP_SSL(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT) as server:
+            server.login(FROM_EMAIL, EMAIL_PASSWORD)  # Log in with Hostinger credentials
+            
+            # Send the email
+            server.sendmail(FROM_EMAIL, to_email, msg.as_string())
+        
+        print(f"HTML email successfully sent to {to_email}!")
+    except Exception as e:
+        print(f"Failed to send email to {to_email}: {e}")
+
+
+
+
+def send_admin_mail(message, subject="Admin Message"):
+    # Email content
+    subject = subject
+    html_content = f"""
+    <html>
+    <body>
+        <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736081440/1_axn4zj.png" alt="Logo" style="width: 150px;"/>
+            </div>
+            <p>{message}</p>
+            
+            <p>This message is directly to the admin strictly for notification purposes,</p>
+            <p>Thank you.</p>
+            <p style="text-align: center; font-size: 14px; color: #777; margin-top: 30px;">
+                © 2024 Optimum Bank. All rights reserved.
+            </p>
+        </div>
+    </body>
+    </html>
+    """
     
-    # Create the email message
+    msg = MIMEMultipart()
+    msg['From'] = ADMIN_EMAIL
+    msg['To'] = MAIN_ADMIN
+    msg['Subject'] = subject
+    msg.attach(MIMEText(html_content, 'html'))
+    
+
+
+    try:
+        # Set up the SMTP server connection using SSL
+        with smtplib.SMTP_SSL(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT) as server:
+            server.login(ADMIN_EMAIL, EMAIL_PASSWORD)  # Log in with Hostinger credentials
+            
+            # Send the email
+            server.sendmail(FROM_EMAIL, ADMIN_EMAIL, msg.as_string())
+        
+        print(f"HTML email successfully sent to {ADMIN_EMAIL}!")
+    except Exception as e:
+        print(f"Failed to send email to {ADMIN_EMAIL}: {e}")
+
+
+def send_ordinary_user_mail(to_email, message, subject="User message"):
+    # Email content
+    subject = subject
+    html_content = f"""
+    <html>
+    <body>
+        <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736081440/1_axn4zj.png" alt="Logo" style="width: 150px;"/>
+            </div>
+            <p>{message}</p>
+            
+            <p>Thank you for banking with us.</p>
+            <p>If you didn't request this, please ignore this email.</p>
+            <p>Thank you.</p>
+            <p style="text-align: center; font-size: 14px; color: #777; margin-top: 30px;">
+                © 2024 Optimum Bank. All rights reserved.
+            </p>
+        </div>
+    </body>
+    </html>
+    """
+    
     msg = MIMEMultipart()
     msg['From'] = ADMIN_EMAIL
     msg['To'] = to_email
     msg['Subject'] = subject
-    
-    # Attach the HTML content
     msg.attach(MIMEText(html_content, 'html'))
     
-    # Add logo image as an attachment with Content-ID
-    # with open(logo_file, 'rb') as img_file:
-    #     logo_image = MIMEImage(img_file.read())
-    #     logo_image.add_header('Content-ID', '<logo>')  # This ID should match the src in the HTML
-    #     logo_image.add_header('Content-Disposition', 'inline', filename="logo.png")
-    #     msg.attach(logo_image)
 
     try:
-        # Set up the SMTP server connection
-        server = smtplib.SMTP(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT)
-        server.starttls()  # Secure the connection
-        server.login(ADMIN_EMAIL, EMAIL_PASSWORD)
+        # Set up the SMTP server connection using SSL
+        with smtplib.SMTP_SSL(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT) as server:
+            server.login(ADMIN_EMAIL, EMAIL_PASSWORD)  # Log in with Hostinger credentials
+            
+            # Send the email
+            server.sendmail(ADMIN_EMAIL, to_email, msg.as_string())
         
-        # Send the email
-        server.sendmail(ADMIN_EMAIL, to_email, msg.as_string())
-        
-        # Close the SMTP server connection
-        server.quit()
-        
-        print("HTML email sent successfully!")
+        print(f"HTML email successfully sent to {ADMIN_EMAIL}!")
     except Exception as e:
-        print(f"Failed to send email: {e}")
+        print(f"Failed to send email to {ADMIN_EMAIL}: {e}")
+
+
+
 
 def send_beautiful_html_email_create_account(
     account_name, 
@@ -94,7 +161,6 @@ def send_beautiful_html_email_create_account(
     to_email, 
     bank_id
 ):
-    print(logo_file)
     # Email subject
     subject = "Welcome to Our Bank"
     
@@ -106,7 +172,7 @@ def send_beautiful_html_email_create_account(
             <div style="text-align: center; margin-bottom: 20px;">
                 <img src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736081440/1_axn4zj.png" alt="Bank Logo" style="width: 150px; height: auto;"/>
             </div>
-            <h2 style="color: #4CAF50; text-align: center;">Welcome to Our Bank!</h2>
+            <h2 style=" text-align: center;">Welcome to Our Bank!</h2>
             <p style="font-size: 16px; line-height: 1.6;">
                 Dear customer,
             </p>
@@ -138,28 +204,19 @@ def send_beautiful_html_email_create_account(
     # Attach the HTML content
     msg.attach(MIMEText(html_content, 'html'))
     
-    # Add logo image as an attachment with Content-ID
-    # with open(logo_file, 'rb') as img_file:
-    #     logo_image = MIMEImage(img_file.read())
-    #     logo_image.add_header('Content-ID', '<logo>')  # This ID should match the src in the HTML
-    #     logo_image.add_header('Content-Disposition', 'inline', filename="logo.png")
-    #     msg.attach(logo_image)
+
 
     try:
-        # Set up the SMTP server connection
-        server = smtplib.SMTP(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT)
-        server.starttls()  # Secure the connection
-        server.login(ADMIN_EMAIL, EMAIL_PASSWORD)
+        # Set up the SMTP server connection using SSL
+        with smtplib.SMTP_SSL(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT) as server:
+            server.login(ADMIN_EMAIL, EMAIL_PASSWORD)  # Log in with Hostinger credentials
+            
+            # Send the email
+            server.sendmail(ADMIN_EMAIL, to_email, msg.as_string())
         
-        # Send the email
-        server.sendmail(ADMIN_EMAIL, to_email, msg.as_string())
-        
-        # Close the SMTP server connection
-        server.quit()
-        
-        print("HTML email sent successfully!")
+        print(f"HTML email successfully sent to {to_email}!")
     except Exception as e:
-        print(f"Failed to send email: {e}")
+        print(f"Failed to send email to {to_email}: {e}")
 
 
 
@@ -203,7 +260,7 @@ def send_beautiful_html_email_create_account(
             <p style="font-size: 16px; line-height: 1.6;">
                 We're thrilled to have you with us. If you have any questions, feel free to reach out to our customer service team.
             </p>
-            <h2 style="color: #4CAF50; text-align: center;">Thank you for banking with us, {account_name}!</h2>
+            <h2 style=" text-align: center;">Thank you for banking with us, {account_name}!</h2>
             <p style="text-align: center; font-size: 14px; color: #777; margin-top: 30px;">
                 © 2024 Optimum Bank. All rights reserved.
             </p>
@@ -221,12 +278,6 @@ def send_beautiful_html_email_create_account(
     # Attach the HTML content
     msg.attach(MIMEText(html_content, 'html'))
     
-    # Attach logo image with Content-ID for inline display
-    # with open(logo_file, 'rb') as img_file:
-    #     logo_image = MIMEImage(img_file.read())
-    #     logo_image.add_header('Content-ID', '<logo>')  # This ID matches the src in the HTML
-    #     logo_image.add_header('Content-Disposition', 'inline', filename="logo.png")
-    #     msg.attach(logo_image)
 
     try:
         # Set up the SMTP server connection
@@ -248,6 +299,7 @@ def send_beautiful_html_email_create_account(
 
 
 
+
 def send_password_reset_email(to_email, reset_link):
     # Email content
     subject = "Password Reset Request"
@@ -260,7 +312,7 @@ def send_password_reset_email(to_email, reset_link):
             </div>
             <h2>Password Reset</h2>
             <p>You requested a password reset. Click the link below to set a new password:</p>
-            <a href="{reset_link}" style="display:inline-block; padding:10px; background-color: #4CAF50; color:white; text-decoration:none;">
+            <a href="{reset_link}" style="display:inline-block; padding:10px; background- color:white; text-decoration:none;">
                 Reset Password
             </a>
             <p>If you didn't request this, please ignore this email.</p>
@@ -279,21 +331,22 @@ def send_password_reset_email(to_email, reset_link):
     msg['Subject'] = subject
     msg.attach(MIMEText(html_content, 'html'))
     
-    # logo_path = os.path.join(settings.BASE_DIR, "static", "images", "firstoriginallogo.png")
-    # with open(logo_path, 'rb') as logo_file:
-    #     logo = MIMEImage(logo_file.read())
-    #     logo.add_header('Content-ID', '<logo>')
-    #     logo.add_header('Content-Disposition', 'inline', filename="logo.png")
-    #     msg.attach(logo)
     
     try:
         with smtplib.SMTP(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT) as server:
             server.starttls()
             server.login(ADMIN_EMAIL,EMAIL_PASSWORD)
             server.sendmail(ADMIN_EMAIL, to_email, msg.as_string())
-        print("Password reset email sent successfully.")
+        print(f"Email sent successfully to {to_email}.")
     except Exception as e:
         print(f"Failed to send email: {e}")
+
+
+
+
+
+
+
 
 
 
@@ -328,12 +381,6 @@ def send_otp_code_verification(to_email, otp_code, transaction_type):
     msg['Subject'] = subject
     msg.attach(MIMEText(html_content, 'html'))
     
-    # logo_path = os.path.join(settings.BASE_DIR, "static", "images", "firstoriginallogo.png")
-    # with open(logo_path, 'rb') as logo_file:
-    #     logo = MIMEImage(logo_file.read())
-    #     logo.add_header('Content-ID', '<logo>')
-    #     logo.add_header('Content-Disposition', 'inline', filename="logo.png")
-    #     msg.attach(logo)
     
     try:
         with smtplib.SMTP(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT) as server:
@@ -375,12 +422,6 @@ def send_transaction_mail(to_email, message, subject="OTP Verification"):
     msg['Subject'] = subject
     msg.attach(MIMEText(html_content, 'html'))
     
-    # logo_path = os.path.join(settings.BASE_DIR, "static", "images", "firstoriginallogo.png")
-    # with open(logo_path, 'rb') as logo_file:
-    #     logo = MIMEImage(logo_file.read())
-    #     logo.add_header('Content-ID', '<logo>')
-    #     logo.add_header('Content-Disposition', 'inline', filename="logo.png")
-    #     msg.attach(logo)
     
     try:
         with smtplib.SMTP(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT) as server:
@@ -393,96 +434,7 @@ def send_transaction_mail(to_email, message, subject="OTP Verification"):
 
 
 
-def send_admin_mail(message, subject="Admin Message"):
-    # Email content
-    subject = subject
-    html_content = f"""
-    <html>
-    <body>
-        <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px;">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <img src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736081440/1_axn4zj.png" alt="Logo" style="width: 150px;"/>
-            </div>
-            <p>{message}</p>
-            
-            <p>This message is directly to the admin strictly for notification purposes,</p>
-            <p>Thank you.</p>
-            <p style="text-align: center; font-size: 14px; color: #777; margin-top: 30px;">
-                © 2024 Optimum Bank. All rights reserved.
-            </p>
-        </div>
-    </body>
-    </html>
-    """
-    
-    msg = MIMEMultipart()
-    msg['From'] = ADMIN_EMAIL
-    msg['To'] = MAIN_ADMIN
-    msg['Subject'] = subject
-    msg.attach(MIMEText(html_content, 'html'))
-    
-    # logo_path = os.path.join(settings.BASE_DIR, "static", "images", "firstoriginallogo.png")
-    # with open(logo_path, 'rb') as logo_file:
-    #     logo = MIMEImage(logo_file.read())
-    #     logo.add_header('Content-ID', '<logo>')
-    #     logo.add_header('Content-Disposition', 'inline', filename="logo.png")
-    #     msg.attach(logo)
-    
-    try:
-        with smtplib.SMTP(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT) as server:
-            server.starttls()
-            server.login(ADMIN_EMAIL, EMAIL_PASSWORD)
-            server.sendmail(ADMIN_EMAIL, ADMIN_EMAIL, msg.as_string())
-        print("Password reset email sent successfully.")
-    except Exception as e:
-        print(f"Failed to send email: {e}")
 
-
-
-def send_ordinary_user_mail(to_email, message, subject="User message"):
-    # Email content
-    subject = subject
-    html_content = f"""
-    <html>
-    <body>
-        <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px;">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <img src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736081440/1_axn4zj.png" alt="Logo" style="width: 150px;"/>
-            </div>
-            <p>{message}</p>
-            
-            <p>Thank you for banking with us.</p>
-            <p>If you didn't request this, please ignore this email.</p>
-            <p>Thank you.</p>
-            <p style="text-align: center; font-size: 14px; color: #777; margin-top: 30px;">
-                © 2024 Optimum Bank. All rights reserved.
-            </p>
-        </div>
-    </body>
-    </html>
-    """
-    
-    msg = MIMEMultipart()
-    msg['From'] = ADMIN_EMAIL
-    msg['To'] = to_email
-    msg['Subject'] = subject
-    msg.attach(MIMEText(html_content, 'html'))
-    
-    # logo_path = os.path.join(settings.BASE_DIR, "static", "images", "firstoriginallogo.png")
-    # with open(logo_path, 'rb') as logo_file:
-    #     logo = MIMEImage(logo_file.read())
-    #     logo.add_header('Content-ID', '<logo>')
-    #     logo.add_header('Content-Disposition', 'inline', filename="logo.png")
-    #     msg.attach(logo)
-    
-    try:
-        with smtplib.SMTP(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT) as server:
-            server.starttls()
-            server.login(ADMIN_EMAIL, EMAIL_PASSWORD)
-            server.sendmail(ADMIN_EMAIL, ADMIN_EMAIL, msg.as_string())
-        print("Password reset email sent successfully.")
-    except Exception as e:
-        print(f"Failed to send email: {e}")
 
 def send_contact_mail( message, subject="Mail from Customer", to_email=ADMIN_EMAIL,):
     # Email content
@@ -523,6 +475,7 @@ def send_contact_mail( message, subject="Mail from Customer", to_email=ADMIN_EMA
 
 
 
+
 def send_mail_from_admin_to_user(to_email, message, subject):
     # Email content
     subject = subject
@@ -550,19 +503,13 @@ def send_mail_from_admin_to_user(to_email, message, subject):
     msg['Subject'] = subject
     msg.attach(MIMEText(html_content, 'html'))
     
-    # logo_path = os.path.join(settings.BASE_DIR, "static", "images", "firstoriginallogo.png")
-    # with open(logo_path, 'rb') as logo_file:
-    #     logo = MIMEImage(logo_file.read())
-    #     logo.add_header('Content-ID', '<logo>')
-    #     logo.add_header('Content-Disposition', 'inline', filename="logo.png")
-    #     msg.attach(logo)
     
     try:
         with smtplib.SMTP(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT) as server:
             server.starttls()
             server.login(ADMIN_EMAIL, EMAIL_PASSWORD)
             server.sendmail(ADMIN_EMAIL, ADMIN_EMAIL, msg.as_string())
-        print("Password reset email sent successfully.")
+        print("email sent successfully.")
     except Exception as e:
         print(f"Failed to send email: {e}")
 
