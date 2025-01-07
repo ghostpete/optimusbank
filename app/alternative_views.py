@@ -159,4 +159,6 @@ def connect_credit_card(request):
     return render(request, 'dashboard/major/credit/connect_card.html', {'available_card_types': available_card_types, "available_card_count": len(available_card_types), "notifications": notifications, "notification_count": notifications.count(),})
 
 
+def error404(request):
+    return render(request, 'main/404.html', {})
 

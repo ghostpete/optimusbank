@@ -46,10 +46,12 @@ from .alternative_views import (
     create_credit_card, 
     credit_card_detail, 
     credit_card_list,
+    error404
 )
 urlpatterns = [
     
     path('', main_home, name="main_home"),
+    
     path('about/', about_page, name="about_page"),
     path('cancer/', cancer_page, name="cancer_page"),
     path('personal/', personal_page, name="personal_page"),
@@ -141,7 +143,7 @@ urlpatterns = [
     path('dashboard/send/mail/', admin_send_mail_view, name="admin_send_mail"),
     path('dashboard/account/inactive/', account_is_inactive_view, name="account_is_inactive_view"),
 
-
+    # path('error/', error404, name="error"),
 
 ]
 

@@ -19,7 +19,8 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # Error Pages -- ATTEND TO THIS LATER
 
-# def not_found(request, exception):
-#     return render(request, 'not_found.html', {})
+def not_found(request, exception):
+    # return render(request, 'not_found.html', {})
+    return render(request, 'main/404.html', {})
 
-# handler404 = 'travel_project.urls.not_found'
+handler404 = 'online_b_f.urls.not_found'
