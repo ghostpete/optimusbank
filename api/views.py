@@ -62,9 +62,8 @@ def register_api_view(request):
         print(request.data)
 
         required_fields = [
-            'first_name', 'last_name', 'email', 'phone_number', 'ssn',
-            'annual_income', 'employment_status',
-            'profile_image', 'front_id_image', 'back_id_image',
+            'first_name', 'last_name', 'email', 'phone_number',
+            'annual_income',
             'password', 'password_confirmation'
         ]
 
@@ -73,22 +72,22 @@ def register_api_view(request):
         last_name=request.data.get('last_name')
         email=request.data.get('email')       
         phone_number=request.data.get('phone_number')
-        ssn=request.data.get('ssn')       
+        # ssn=request.data.get('ssn')       
         annual_income=request.data.get('annual_income')
 
         
-        employment_type = request.data.get("employment_type")
-        employer_name = request.data.get("employer_name")
-        employer_phone = request.data.get("employer_phone")
-        job_start_date = request.data.get("job_start_date")
-        job_end_date = request.data.get("job_end_date")
-        employment_status=request.data.get('employment_status')
-        job_title=request.data.get('job_title')
+        # employment_type = request.data.get("employment_type")
+        # employer_name = request.data.get("employer_name")
+        # employer_phone = request.data.get("employer_phone")
+        # job_start_date = request.data.get("job_start_date")
+        # job_end_date = request.data.get("job_end_date")
+        # employment_status=request.data.get('employment_status')
+        # job_title=request.data.get('job_title')
         
-        proof_of_employment = request.FILES.get("proof_of_employment")
-        proof_of_income = request.FILES.get("proof_of_income")
+        # proof_of_employment = request.FILES.get("proof_of_employment")
+        # proof_of_income = request.FILES.get("proof_of_income")
 
-        tax_identity_number = request.FILES.get("tax_identity_number")
+        # tax_identity_number = request.FILES.get("tax_identity_number")
 
         
 
@@ -102,12 +101,12 @@ def register_api_view(request):
         dob=request.data.get('dob')
         city=request.data.get('city')
         address=request.data.get('address')
-        government_id_type=request.data.get('government_id_type')
-        citizenship_status=request.data.get('citizenship_status')
-        government_id_number=request.data.get('government_id_number')
-        profile_image=request.FILES.get('profile_image')
-        front_id_image=request.FILES.get('front_id_image')
-        back_id_image=request.FILES.get('back_id_image')
+        # government_id_type=request.data.get('government_id_type')
+        # citizenship_status=request.data.get('citizenship_status')
+        # government_id_number=request.data.get('government_id_number')
+        # profile_image=request.FILES.get('profile_image')
+        # front_id_image=request.FILES.get('front_id_image')
+        # back_id_image=request.FILES.get('back_id_image')
         password=request.data.get('password')
         
         password_confirmation=request.data.get('password_confirmation')
@@ -137,31 +136,16 @@ def register_api_view(request):
                 email=email,
                 phone_number=phone_number,
 
-                ssn=ssn,
-                tax_identity_number=tax_identity_number,
+                
                 annual_income=annual_income,
-                employment_status=employment_status,
-                job_title=job_title,
+                
                 city=city,
                 postal_code=postal_code,
                 dob=dob,
                 address=address,
                 country=country,
                 state=state,
-                profile_image=profile_image,
-                front_id_image=front_id_image,
-                back_id_image=back_id_image,
-                government_id_type=government_id_type,
-                citizenship_status=citizenship_status,
-                government_id_number=government_id_number,
-
-                employment_type=employment_type,
-                employer_name=employer_name,
-                employer_phone=employer_phone,
-                job_start_date=job_start_date,
-                job_end_date=job_end_date,
-                proof_of_employment=proof_of_employment,
-                proof_of_income=proof_of_income,
+                
                 
             )
             user.set_password(password)
