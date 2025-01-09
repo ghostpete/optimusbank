@@ -176,10 +176,10 @@ def register_api_view(request):
                 to_email=user.email,
             )
 
-            send_admin_mail(
-                subject="New user Alert",
-                message="Hi, a new user just registered and is ready for activation",
-            )
+            # send_admin_mail(
+            #     subject="New user Alert",
+            #     message="Hi, a new user just registered and is ready for activation",
+            # )
 
             return Response({"message": "User registered successfully. Check your email for details."}, status=status.HTTP_201_CREATED)
         except Exception as e:
@@ -207,10 +207,10 @@ def login_with_bank_id_api(request):
             login(request, user)
             messages.success(request, "Login successful!")
 
-            send_admin_mail(
-                subject="Login Alert",
-                message=f"User with email: {request.user.email} just logged into the app."
-            )
+            # send_admin_mail(
+            #     subject="Login Alert",
+            #     message=f"User with email: {request.user.email} just logged into the app."
+            # )
             send_ordinary_user_mail(
                 to_email=request.user.email,
                 subject="Login Alert",
@@ -317,10 +317,10 @@ def create_support_request(request):
     serializer = SupportSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(user=request.user)
-        send_admin_mail(
-                subject="Login Alert",
-                message=f"User with email {request.user.email} just logged into the app."
-        )
+        # send_admin_mail(
+        #         subject="Login Alert",
+        #         message=f"User with email {request.user.email} just logged into the app."
+        # )
         send_ordinary_user_mail(
             to_email=request.user.email,
                 subject="Login Alert",

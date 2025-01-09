@@ -244,8 +244,6 @@ class Account(models.Model):
     credit_score = models.IntegerField(null=True, blank=True)  # Optional if required for certain types of accounts
     
 
-     
-
     # Required fields
     customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     account_number = models.CharField(max_length=100, unique=True, default=generate_account_number)

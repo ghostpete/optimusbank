@@ -29,8 +29,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib.auth import get_user_model
-import json
-from django.db.models import Sum, Count
+
+from django.db.models import Sum
 from django.utils import timezone
 from collections import defaultdict
 import calendar
