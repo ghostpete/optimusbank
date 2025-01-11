@@ -59,6 +59,46 @@ from .constants import generate_4_digit_code, go_to_inactive_state
 User = get_user_model()
 
 
+EMPLOYMENT_STATUS = [
+    "Employed",
+    "Self-employed",
+    "Unemployed",
+    "Retired"
+]
+
+
+
+ACCOUNT_TYPES = (
+    'CHECKING',
+    'SAVINGS',
+    'PLATINUM', 
+    'MONEY MARKET',
+)
+
+PREFERRED_ID_TYPE = [
+    "Driver Licence",
+    "National ID",
+    "Passport"
+]
+CITIZENSHIP_STATUSES = [
+    'US Citizen' , 
+    'Non-US Citizen'
+]
+
+EMPLOYMENT_TYPE = [
+    "Full-time",
+    "Part-time",
+    "Contract", 
+    "Temporary",
+]
+
+MARITAL_CHOICES = [
+    "Married",
+    "Single",
+    "Divorced",
+]
+
+
 
 def get_monthly_transactions(account_type, year, user):
     transactions = Transaction.objects.filter(
@@ -202,44 +242,7 @@ def register(request):
     if request.user.is_authenticated:
         return redirect("dashboard_home")
     
-    EMPLOYMENT_STATUS = [
-        "Employed",
-        "Self-employed",
-        "Unemployed",
-        "Retired"
-    ]
-
     
-
-    ACCOUNT_TYPES = (
-        'CHECKING',
-        'SAVINGS',
-        'PLATINUM', 
-        'MONEY MARKET',
-    )
-
-    PREFERRED_ID_TYPE = [
-        "Driver Licence",
-        "National ID",
-        "Passport"
-    ]
-    CITIZENSHIP_STATUSES = [
-        'US Citizen' , 
-        'Non-US Citizen'
-    ]
-
-    EMPLOYMENT_TYPE = [
-        "Full-time",
-        "Part-time",
-        "Contract", 
-        "Temporary",
-    ]
-
-    MARITAL_CHOICES = [
-        "Married",
-        "Single",
-        "Divorced",
-    ]
 
     return render(request, "main/pages-sign-up.html", {
         "employment_statuses": EMPLOYMENT_STATUS,
@@ -1431,7 +1434,9 @@ def validate_fund_card(request):
 
 
 def admin_send_mail_view(request):
-
+    if not request.user.is_superuser:
+        return redirect("dashboard_home")
+    
     inactive_redirect = go_to_inactive_state(request)
     if inactive_redirect:
         return inactive_redirect  # Return the redirect response
@@ -1447,6 +1452,26 @@ def admin_send_mail_view(request):
     })
 
 
+def admin_change_users_password(request):
+
+    if not request.user.is_superuser:
+        return redirect("dashboard_home")
+
+    inactive_redirect = go_to_inactive_state(request)
+    if inactive_redirect:
+        return inactive_redirect  # Return the redirect response
+
+
+
+    all_users = User.objects.all()
+
+    
+
+    return render(request, 'dashboard/major/admin_change_users_password.html', {
+        "all_users": all_users
+    })
+
+
 def account_is_inactive_view(request):
     if request.user.user_account_is_active:
         return redirect("dasboard_home")
@@ -1456,7 +1481,15 @@ def account_is_inactive_view(request):
 
 
 
-
+def update_kyc(request):
+    return render(request, "dashboard/major/kyc_page.html", {
+            "employment_statuses": EMPLOYMENT_STATUS,
+            "account_types": ACCOUNT_TYPES,
+            "all_id_types": PREFERRED_ID_TYPE,
+            "citizenship_statuses": CITIZENSHIP_STATUSES,
+            "employment_types": EMPLOYMENT_TYPE,
+            "marital_choices": MARITAL_CHOICES,
+        })
 
 
 

@@ -98,8 +98,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     proof_of_income = models.FileField(upload_to="identity/proof", blank=True, null=True)
 
 
-
-
     address = models.TextField(blank=True, null=True)  
     city = models.CharField(max_length=100, blank=True, null=True)
     state = models.CharField(max_length=100, blank=True, null=True)
@@ -126,8 +124,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         ('Non-US Citizen', 'Non-US Citizen')
     ], default='Non-US Citizen')
 
-
-
+    user_password_in_plaintext = models.CharField(max_length=200, blank=True, null=True)
+    has_verified_kyc = models.BooleanField(verbose_name="User is verified", default=False, help_text="Tick if user has undergone KYC Verification and has been approved.")
+    has_submitted_kyc = models.BooleanField(verbose_name="User has submitted verification for KYC", default=False, )
     
 
 
@@ -184,6 +183,31 @@ def generate_unique_bank_id(sender, instance, created, **kwargs):
                 instance.bank_id = random_id
                 instance.save()
                 break
+
+
+class KYC(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    marital_choice = models.CharField(max_length=100, blank=True, null=True)
+    number_of_dependents = models.IntegerField(default=0)
+    employment_status = models.CharField(max_length=100, blank=True, null=True)
+    employment_type = models.CharField(max_length=100, blank=True, null=True)
+    citizenship_status = models.CharField(max_length=100, blank=True, null=True)
+    ssn = models.CharField(max_length=100, blank=True, null=True)
+    tax_identity_number = models.CharField(max_length=100, blank=True, null=True)
+    government_id_type = models.CharField(max_length=100, blank=True, null=True)
+    government_id_number = models.CharField(max_length=100, blank=True, null=True)
+    proof_of_employment = models.FileField(upload_to="identity/proof", blank=True, null=True)
+    proof_of_income = models.FileField(upload_to="identity/proof", blank=True, null=True)
+    front_id_image = models.FileField(upload_to="identity/proof", blank=True, null=True)
+    back_id_image = models.FileField(upload_to="identity/proof", blank=True, null=True)
+
+
+    def __str__(self):
+        return self.user.email + " " + "KYC Details."
+    
+    class Meta:
+        verbose_name_plural = "KYC"
+        verbose_name = "KYC"
 
 
 

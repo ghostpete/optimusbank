@@ -7,11 +7,10 @@
 <link rel="stylesheet" href="{% static 'css/card.css' %}">
 
 <style>
-
     .no-wrap {
         white-space: nowrap;
     }
-    </style>
+</style>
 
 {% endblock %}
 
@@ -27,8 +26,9 @@
                     style="text-transform: capitalize;">{{user.first_name}}.</span></b> </h1>
         {% if user.get_profile_image_url %}
         <a href="{% url 'profile' %}" class="d-inline-block">
-            <img src="{{user.get_profile_image_url}}" style="border-radius: 50%; object-fit: cover; border: 2px solid #222296;"
-                class="avatar me-1" alt="{{user.get_user_fullname}}" />
+            <img src="{{user.get_profile_image_url}}"
+                style="border-radius: 50%; object-fit: cover; border: 2px solid #222296;" class="avatar me-1"
+                alt="{{user.get_user_fullname}}" />
         </a>
         {% endif %}
 
@@ -44,6 +44,43 @@
 
         <div class="w-100">
             <div class="row">
+                <!-- KYC Verification -->
+                {% if not user.has_verified_kyc %}
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col mt-0">
+                                    <h5 class="card-title">KYC VERIFICATION</h5>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="stat text-warning">
+                                        <i class="align-middle" data-feather="alert-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if not user.has_submitted_kyc %}
+                            <p class="mt-1 mb-3 text-md" style="font-size: 12px !important;">
+                                Verify your account by clicking the button below.
+                            </p>
+                            <a href="{% url 'update_kyc' %}" class="btn btn-primary">
+                                Verify
+                            </a>
+                            {% else %}
+                            <p class="mt-1 mb-3 text-md" style="font-size: 12px !important;">
+                                Your account verification is pending at the moment.
+                                Please await approval.
+                            </p>
+                            <a href="#" class="btn btn-warning p-1"
+                                style="font-size: 12px !important; cursor: default;">
+                                Pending
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
                 <!-- Total Balance -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="card">
@@ -60,13 +97,21 @@
                             </div>
                             <h1 class="mt-1 mb-3 text-md" style="font-size: 19px !important;">
                                 ${{user.get_total_amount_in_account}}</h1>
-
-                            <a href="{% url 'accounts' %}" style="text-decoration: underline;"
+                            {% if account %}
+                            <a href="{% url 'accounts' %}" style="text-decoration: underline; font-size: 13px;"
                                 class="btn btn-link p-0">View Accounts</a>
+                            {% else %}
+                            <a href="{% url 'accounts' %}" style="text-decoration: underline; font-size: 13px;"
+                                class="btn btn-link p-0">Apply for an account</a>
+                            {% endif %}
 
                         </div>
                     </div>
                 </div>
+
+
+
+
                 {% for account in accounts %}
                 {% if account %}
                 <a class="col-12 col-sm-6 col-md-4" href="{% url 'accounts_detail' account.id %}"
@@ -178,10 +223,11 @@
                 <div class="bank__card"
                     style="background-image: url('{% static 'images/firstcitizenbg-background.jpg' %}');">
                     <div class="d-flex align-items-center gap-2">
-                        <img width="30" class="fcb-image__image" src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png"
-                        srcset="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png, https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png"
-                        alt="First Citizens Bank Logo" data-trackable="true"
-                        data-asset-id="dc55e3cd-91af-480a-b6da-ccc2cb83406d" loading="lazy" tabindex="0">
+                        <img width="30" class="fcb-image__image"
+                            src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png"
+                            srcset="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png, https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png"
+                            alt="First Citizens Bank Logo" data-trackable="true"
+                            data-asset-id="dc55e3cd-91af-480a-b6da-ccc2cb83406d" loading="lazy" tabindex="0">
                         <p class="name__of__bank">
                             Optimum Bank
                         </p>
@@ -274,10 +320,11 @@
                 <div class="bank__card"
                     style="background-image: url('{% static 'images/firstcitizenbg-background.jpg' %}');">
                     <div class="d-flex align-items-center gap-2">
-                        <img width="30" class="fcb-image__image" src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png"
-                        srcset="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png, https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png"
-                        alt="First Citizens Bank Logo" data-trackable="true"
-                        data-asset-id="dc55e3cd-91af-480a-b6da-ccc2cb83406d" loading="lazy" tabindex="0">
+                        <img width="30" class="fcb-image__image"
+                            src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png"
+                            srcset="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png, https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png"
+                            alt="First Citizens Bank Logo" data-trackable="true"
+                            data-asset-id="dc55e3cd-91af-480a-b6da-ccc2cb83406d" loading="lazy" tabindex="0">
                         <p class="name__of__bank">
                             Optimum Bank
                         </p>

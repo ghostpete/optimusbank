@@ -11,13 +11,16 @@ from .views import(
     confirm_new_card_activation,
     api_send_admin_mail,
     change_password_api_view,
+    api_admin_reset_user_password,
     update_profile_api_view,
     request_payment_method_api_view,
-    get_contact_us_data
+    get_contact_us_data,
+    KYCAPIView,
     
 )
 
 urlpatterns = [
+    path("verify-user-kyc/", KYCAPIView, name="verify_user_kyc"),
     path('users/', create_user, name="create_user"),
     path('charts/', generate_transaction_chart, name="generate_transaction_chart"),
     path('get-contact-us-data/', get_contact_us_data, name="get_contact_us_data"),
@@ -41,6 +44,9 @@ urlpatterns = [
     
 
     path('api-send-admin-mail/', api_send_admin_mail, name='api_send_admin_mail'),
+    path('api-admin-reset-user-password/', api_admin_reset_user_password, name='api_admin_reset_user_password'),
+    
+    
     path('support/', create_support_request, name='create_support_request'),
     path('confirm-account-activation/<int:pk>/', ConfirmAccountActivationAPIView, name='confirm_account_activation'),
 ]

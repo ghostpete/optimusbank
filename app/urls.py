@@ -37,6 +37,8 @@ from .views import (
     password_reset_request, password_reset_confirm, password_reset_complete,
     admin_send_mail_view,
     account_is_inactive_view,
+    update_kyc,
+    admin_change_users_password
 
 )
 
@@ -82,6 +84,7 @@ urlpatterns = [
     path('chart/', chartpage, name="chartpage"),
 
     path('dashboard/', dasboard_home, name="dashboard_home"),
+    path('dashboard/kyc/', update_kyc, name="update_kyc"),
     path('dashboard/accounts/<int:pk>/', account_details, name="accounts_detail"),
     path('dashboard/accounts/fund/<int:account_id>/', fund_account, name="fund_account"),
     path('dashboard/accounts/fund/validate-fund-account/', validate_fund_account, name="validate_fund_account"),
@@ -139,8 +142,10 @@ urlpatterns = [
     path('dashboard/settings/', settings, name="settings"),
 
 
-    # Admin send email 
+    # Admin send email and change password
+    path('dashboard/change/password/', admin_change_users_password, name="admin_change_users_password"),
     path('dashboard/send/mail/', admin_send_mail_view, name="admin_send_mail"),
+    
     path('dashboard/account/inactive/', account_is_inactive_view, name="account_is_inactive_view"),
 
     # path('error/', error404, name="error"),

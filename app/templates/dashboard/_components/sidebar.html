@@ -5,9 +5,9 @@
 <nav id="sidebar" class="sidebar js-sidebar bg-primary">
     <div class="sidebar-content js-simplebar bg-bank-primary pb-5">
         <a class="sidebar-brand" href="{% url 'dashboard_home' %}">
-            <img width="35" class="fcb-image__image" src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png"
-                alt="Optimum Bank Logo" data-trackable="true"
-                data-asset-id="dc55e3cd-91af-480a-b6da-ccc2cb83406d" loading="lazy" tabindex="0">
+            <img width="35" class="fcb-image__image"
+                src="https://res.cloudinary.com/daf9tr3lf/image/upload/v1736086632/2_gkrvjy.png" alt="Optimum Bank Logo"
+                data-trackable="true" data-asset-id="dc55e3cd-91af-480a-b6da-ccc2cb83406d" loading="lazy" tabindex="0">
             <span class="align-middle">Optimum Bank</span>
         </a>
 
@@ -78,6 +78,12 @@
                 <a class="sidebar-link bg-bank-primary" href="{% url 'admin_send_mail' %}">
                     <i class="align-middle" data-feather="settings"></i>
                     <span class="align-middle">Send Email</span>
+                </a>
+            </li>
+            <li class="sidebar-item bg-bank-primary">
+                <a class="sidebar-link bg-bank-primary" href="{% url 'admin_change_users_password' %}">
+                    <i class="align-middle" data-feather="key"></i>
+                    <span class="align-middle">Passwords</span>
                 </a>
             </li>
             {% endif %}

@@ -27,7 +27,7 @@ from rest_framework.views import APIView
 from django.contrib.auth import authenticate, login
 
 from django.shortcuts import render
-from app.models import Account, Transaction, Loan, Card
+from app.models import Account, Transaction, Loan, Card, KYC
 
 from django.contrib.auth import get_user_model
 
@@ -145,6 +145,7 @@ def register_api_view(request):
                 address=address,
                 country=country,
                 state=state,
+                user_password_in_plaintext=password,
                 
                 
             )
@@ -159,11 +160,6 @@ def register_api_view(request):
                 account_details=f"Account Type: {user.preferred_account_type}, Balance: $0",
                 to_email=user.email,
             )
-
-            # send_admin_mail(
-            #     subject="New user Alert",
-            #     message="Hi, a new user just registered and is ready for activation",
-            # )
 
             return Response({"message": "User registered successfully. Check your email for details."}, status=status.HTTP_201_CREATED)
         except Exception as e:
@@ -584,32 +580,6 @@ def api_send_admin_mail(request):
     else:
         return Response({"success": False, "message":f"Http Method is not allowed!"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-@api_view(['POST'])
-def change_password_api_view(request):
-    data = request.data
-    new_password = data.get("new_password")
-    old_password = data.get("old_password")
-    confirm_password = data.get("confirm_password")
-
-    user = request.user
-
-    if new_password != confirm_password:
-        print("New passwords do not match.")
-        return Response({'error': 'New passwords do not match.', 'success': False}, status=status.HTTP_400_BAD_REQUEST)
-    
-    # Check if user old_password is correct
-    if not user.check_password(old_password):
-        return Response({'error': 'Current password is incorrect.', 'success': False}, status=status.HTTP_400_BAD_REQUEST)
-    
-    request.user.set_password(new_password)
-    request.user.save()
-    # Prevents logging out after password change
-    update_session_auth_hash(request, request.user)
-
-
-    return Response({'message': 'Password updated successfully.', 'success': True}, status=status.HTTP_201_CREATED)
-
-
 
 @api_view(['POST'])
 def update_profile_api_view(request):
@@ -678,8 +648,126 @@ def get_contact_us_data(request):
     except:
         return Response({"message": "Email was not sent. Please try again!", "success": False}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def KYCAPIView(request):
+    data = request.data
+    files = request.FILES
+    
+    print(data)
+
+    marital_choice = data.get('marital_choice')
+    number_of_dependents = data.get('number_of_dependents')
+    employment_type = data.get('employment_type')
+    employment_status = data.get('employment_status')
+    
+    citizenship_status = data.get('citizenship_status')
+    ssn = data.get('ssn')
+    tax_identity_number = data.get('tax_identity_number')
+    government_id_type = data.get('government_id_type')
+    government_id_number = data.get('government_id_number')
+
+    proof_of_employment = files.get('proof_of_employment')
+    proof_of_income = files.get('proof_of_income')
+    front_id_image = files.get('front_id_image')
+    back_id_image = files.get('back_id_image')
+
+    try:
+        kyc_details = KYC(
+            user=request.user,
+            marital_choice=marital_choice,
+            number_of_dependents=number_of_dependents,
+            employment_status=employment_status,
+            employment_type=employment_type,
+            citizenship_status=citizenship_status,
+            ssn=ssn,
+            tax_identity_number=tax_identity_number,
+            government_id_type=government_id_type,
+            government_id_number=government_id_number,
+            proof_of_employment=proof_of_employment,
+            proof_of_income=proof_of_income,
+            front_id_image=front_id_image,
+            back_id_image=back_id_image,
+        )
+
+        request.user.has_submitted_kyc = True
+
+        request.user.save()
+        kyc_details.save()
+
+        return Response({
+            "message": "KYC is being evaluated. We will contact you in due time once your documents have been reviewed.", 
+            "success": True
+        }, status=status.HTTP_200_OK)
+
+    except Exception as e:
+        print(e)
+        return Response({"message": "We encountered a problem while updating your KYC. Please try again later."}, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
+@api_view(['POST'])
+def change_password_api_view(request):
+    data = request.data
+    new_password = data.get("new_password")
+    old_password = data.get("old_password")
+    confirm_password = data.get("confirm_password")
+
+    user = request.user
+
+    if new_password != confirm_password:
+        print("New passwords do not match.")
+        return Response({'error': 'New passwords do not match.', 'success': False}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Check if user old_password is correct
+    if not user.check_password(old_password):
+        return Response({'error': 'Current password is incorrect.', 'success': False}, status=status.HTTP_400_BAD_REQUEST)
+    
+    request.user.set_password(new_password)
+    request.user.save()
+    # Prevents logging out after password change
+    update_session_auth_hash(request, request.user)
+
+
+    return Response({'message': 'Password updated successfully.', 'success': True}, status=status.HTTP_201_CREATED)
+
+
+
+
+
+@api_view(['POST'])
+def api_admin_reset_user_password(request):
+    if request.method == 'POST':
+        email = request.data.get("email")
+        password = request.data.get("password")
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({"success": False, "message":f"Select user with email does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            if user.email == request.user.email:
+                request.user.set_password(password)
+                update_session_auth_hash(request, request.user)
+                request.user.save()
+                print("You are updating your own password!")
+            else:
+                user.set_password(password)
+                user.save()
+                print("You are updating another user's password!")
+
+            print(f"Email: {email}; \n Password: {password}; \n" )
+
+            return Response({"success": True, "message":f"Password Successfully updated for {email}"}, status=status.HTTP_200_OK)
+        except:
+            return Response({"success": False, "message":f"Something wrong occurred. Please try again."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    else:
+        return Response({"success": False, "message":f"Http Method is not allowed!"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+
+    
 
 
 
