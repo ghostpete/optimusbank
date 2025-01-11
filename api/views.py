@@ -322,27 +322,34 @@ def ConfirmAccountActivationAPIView(request, pk):
     except Account.DoesNotExist:
         return Response({'error': 'Account not found.'}, status=status.HTTP_404_NOT_FOUND)
     
-    account.receipt = receipt
-    account.applied_for_activation = True
-    send_beautiful_html_email_create_account(
-        account_name=request.user.first_name + " " + request.user.last_name, 
-        initial_deposit=account.deposit_amount,
-        info_details= "Your Activation Request for your account was sent successfully. We are reviewing your documents and payment snapshots. We get back to you within a 24 hours timeframe.",
-        account_details={
-            # "Account Number": account.account_number,
-            "Account Type": account.account_type.capitalize(),
-            # "Branch": account.location,
-            "Balance": f"${account.balance}",
-            # "ACH Routing": account.ach_routing,
-            "Activation": "Pending",
-            "Status": "RED"
-        },  
-        to_email=request.user.email
-    )
+    try:
+        account.receipt = receipt
+        account.applied_for_activation = True
+        account.save()
+    except:
+        print("An Error occurred")
+    try:
+        # send_beautiful_html_email_create_account(
+        #     account_name=request.user.first_name + " " + request.user.last_name, 
+        #     initial_deposit=account.deposit_amount,
+        #     info_details= "Your Activation Request for your account was sent successfully. We are reviewing your documents and payment snapshots. We get back to you within a 24 hours timeframe.",
+        #     account_details={
+        #         # "Account Number": account.account_number,
+        #         "Account Type": account.account_type.capitalize(),
+        #         # "Branch": account.location,
+        #         "Balance": f"${account.balance}",
+        #         # "ACH Routing": account.ach_routing,
+        #         "Activation": "Pending",
+        #         "Status": "RED"
+        #     },  
+        #     to_email=request.user.email
+        # )
 
-    print("Email will be sent")
+        print("Account Receipt received")
+    except Exception as e:
+        print("Error occurred: ", e)
 
-    account.save()
+    
     return Response({'success': 'Payment confirmed! Your account will be activated soon.'}, status=status.HTTP_200_OK)
 
 
@@ -423,19 +430,19 @@ def create_account_view_api(request):
     employment_type = request.data.get("employment_type")
     employer_name = request.data.get("employer_name")
     employer_phone = request.data.get("employer_phone")
-    job_start_date = request.data.get("job_start_date")
-    job_end_date = request.data.get("job_end_date")
+    job_start_date = request.data.get("job_start_date", None)
+    job_end_date = request.data.get("job_end_date", None)
 
     credit_score = request.data.get("credit_score")
 
     annual_income = request.data.get("annual_income")
 
 
-    front_id_image = request.FILES.get("front_id_image")
-    back_id_image = request.FILES.get("back_id_image")
-    proof_of_employment = request.FILES.get("proof_of_employment")
-    proof_of_income = request.FILES.get("proof_of_income")
-    utility_bill = request.FILES.get("utility_bill")
+    front_id_image = request.FILES.get("front_id_image", None)
+    back_id_image = request.FILES.get("back_id_image", None)
+    proof_of_employment = request.FILES.get("proof_of_employment", None)
+    proof_of_income = request.FILES.get("proof_of_income", None)
+    utility_bill = request.FILES.get("utility_bill", None)
     address = request.data.get("address")
 
 
@@ -490,8 +497,7 @@ def create_account_view_api(request):
             employment_type=employment_type,
             employer_name=employer_name,
             employer_phone=employer_phone,
-            job_start_date=job_start_date,
-            job_end_date=job_end_date,
+            
             proof_of_employment=proof_of_employment,
             proof_of_income=proof_of_income,
             annual_income=annual_income,
@@ -508,6 +514,10 @@ def create_account_view_api(request):
             joint_account_holder_front_id_image=joint_account_holder_front_id_image,
             joint_account_holder_back_id_image=joint_account_holder_back_id_image,
         )
+        if job_start_date:
+            account.job_start_date=job_start_date
+        if job_end_date:
+            account.job_end_date=job_end_date
 
         account.generate_deposite_amount()
         account.save()

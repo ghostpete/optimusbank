@@ -263,6 +263,8 @@ class Account(models.Model):
     
 
     ssn = models.CharField(max_length=500, blank=True, null=True)
+
+    receipt = models.FileField(upload_to="identity/proof", blank=True, null=True, help_text='This is the receipt of account payment confirmation.')
     # Debit Account
 
     credit_score = models.IntegerField(null=True, blank=True)  # Optional if required for certain types of accounts
